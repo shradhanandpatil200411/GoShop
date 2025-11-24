@@ -1,10 +1,31 @@
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { asyncRegisterUserAction } from "../Store/Actions/userActions";
 function Login() {
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+    reset,
+  } = useForm({
+    defaultValues: {
+      firstName: "vicky",
+      lastName: "patil",
+      email: "shradhanand@gmail.com",
+      password: "Shradhanand@123",
+    },
+  });
+  const submitHandler = (user, e) => {
+    e.preventDefault();
+    const sendUser = {
+      fullName: { firstName: user.firstName, lastName: user.lastName },
+      email: user.email,
+      password: user.password,
+    };
+    dispatch(asyncRegisterUserAction(sendUser));
+    reset();
+  };
   return (
     <>
       <section className=''>
@@ -14,27 +35,24 @@ function Login() {
             <p className='text-2xl font-thin'>Welcome to my store</p>
           </div>
           <form
-            onSubmit={handleSubmit((user, e) => {
-              e.preventDefault();
-              console.log(user);
-            })}
+            onSubmit={handleSubmit(submitHandler)}
             className='rounded-tr-[30%] mx-auto h-[70vh] px-10 bg-gray-200 py-10'>
             <div>
               <h1 className='text-Deep-Navy-Blue font-bold text-4xl'>
                 Sign Up
               </h1>
             </div>
-            <div className='flex flex-col gap-1 mt-2'>
+            <div className='flex flex-col gap-1 mt-4'>
               <label htmlFor='firstName' className='text-lg font-semibold'>
                 FirstName
               </label>
               <input
                 {...register("firstName", { required: "This is required" })}
-                className='border outline-none rounded-lg px-2 py-2 bg-white '
+                className=' outline-none rounded-lg px-2 py-2 bg-white '
                 style={
                   errors.firstName?.message
                     ? { border: "2px solid red" }
-                    : { border: `2px solid black` }
+                    : { border: "1px solid black" }
                 }
                 type='text'
                 id='firstName'
@@ -53,7 +71,7 @@ function Login() {
                 style={
                   errors.lastName?.message
                     ? { border: "2px solid red" }
-                    : { border: "2px solid black" }
+                    : { border: "1px solid black" }
                 }
                 type='text'
                 id='lastName'
@@ -71,7 +89,7 @@ function Login() {
                 style={
                   errors.email?.message
                     ? { border: "2px solid red" }
-                    : { border: "2px solid black" }
+                    : { border: "1px solid black" }
                 }
                 className='border outline-none rounded-lg px-2 py-2 bg-white '
                 type='email'
@@ -93,7 +111,7 @@ function Login() {
                 style={
                   errors.password?.message
                     ? { border: "2px solid red" }
-                    : { border: "2px solid black" }
+                    : { border: "1px solid black" }
                 }
                 className='border outline-none rounded-lg px-2 py-2 bg-white'
                 type='password'
@@ -104,7 +122,9 @@ function Login() {
               </small>
             </div>
             <div className='mt-2 bg-Bright-Orange text-lg text-white font-semibold text-center rounded-lg px-4 py-2 w-full'>
-              <button>Sign Up</button>
+              <button className='w-full outline-none border-none'>
+                Sign Up
+              </button>
             </div>
           </form>
         </div>
