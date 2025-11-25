@@ -5,10 +5,12 @@ import {
   asyncLoginUserAction,
   asyncRegisterUserAction,
 } from "../Store/Actions/userActions";
+import { useNavigate } from "react-router";
 
 function AuthenticationPage() {
   const [isLogin, setIsLogin] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -34,6 +36,7 @@ function AuthenticationPage() {
     if (isLogin) {
       const loginData = { email: data.email, password: data.password };
       dispatch(asyncLoginUserAction(loginData));
+      navigate("/home");
     } else {
       const registerData = {
         fullName: { firstName: data.firstName, lastName: data.lastName },

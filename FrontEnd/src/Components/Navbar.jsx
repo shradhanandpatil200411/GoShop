@@ -4,7 +4,7 @@ import StoreLogo from "./StoreLogo";
 function Navbar() {
   return (
     <>
-      <nav className='flex justify-between px-4 py-5  fixed backdrop-blur-2xl w-full z-50'>
+      <nav className='flex justify-between px-4 py-5 bg-Deep-Navy-Blue/10  fixed backdrop-blur-2xl w-full z-50'>
         <div>
           <StoreLogo />
         </div>

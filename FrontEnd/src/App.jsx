@@ -1,12 +1,12 @@
-import AuthenticationPage from "./Pages/AuthenticationPage";
 import Navbar from "./Components/Navbar";
 import { ToastContainer } from "react-toastify";
+import MainRoutes from "./Routes/MainRoutes";
 
 function App() {
   return (
     <div className='w-screen'>
       <Navbar />
-      <AuthenticationPage />
+      <MainRoutes />
       <ToastContainer />
     </div>
   );
