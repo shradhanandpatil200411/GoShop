@@ -1,167 +1,171 @@
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { asyncRegisterUserAction } from "../Store/Actions/userActions";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import {
+  asyncLoginUserAction,
+  asyncRegisterUserAction,
+} from "../Store/Actions/userActions";
+
 function AuthenticationPage() {
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
   const dispatch = useDispatch();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
+    clearErrors,
   } = useForm({
     defaultValues: {
-      firstName: "vicky",
-      lastName: "patil",
-      email: "shradhanand@gmail.com",
-      password: "Shradhanand@123",
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
     },
   });
-  const submitHandler = (user, e) => {
-    e.preventDefault();
-    const sendUser = {
-      fullName: { firstName: user.firstName, lastName: user.lastName },
-      email: user.email,
-      password: user.password,
-    };
-    dispatch(asyncRegisterUserAction(sendUser));
+
+  useEffect(() => {
+    reset();
+    clearErrors();
+  }, [isLogin, reset, clearErrors]);
+
+  const submitHandle = (data) => {
+    if (isLogin) {
+      const loginData = { email: data.email, password: data.password };
+      dispatch(asyncLoginUserAction(loginData));
+    } else {
+      const registerData = {
+        fullName: { firstName: data.firstName, lastName: data.lastName },
+        email: data.email,
+        password: data.password,
+      };
+      dispatch(asyncRegisterUserAction(registerData, setIsLogin));
+    }
+
     reset();
   };
+
+  const getInputClass = (error) => {
+    return `w-full outline-none rounded-lg px-3 py-3 bg-white border-2 transition-colors duration-200
+      ${
+        error
+          ? "border-red-500 focus:border-red-500"
+          : "border-gray-200 focus:border-[#0C2D48]"
+      }`;
+  };
+
   return (
-    <>
-      <section>
-        <div className='h-screen bg-Deep-Navy-Blue'>
-          <div className='h-[30vh] px-10 w-fit gap-2 flex flex-col justify-end py-5 text-white '>
-            <h1 className='text-5xl font-bold'>
-              {isLogin ? "Welcome Back!" : "Get Started"}
-            </h1>
-            <p className='text-xl font-thin text-gray-400'>
-              {isLogin
-                ? "Sign in to continue to your account."
-                : "Join us and start shopping today."}
-            </p>
+    <section className='h-screen bg-Deep-Navy-Blue overflow-hidden'>
+      {/* --- HEADER SECTION --- */}
+      <div className='h-[30vh] px-10 w-full max-w-lg mx-auto flex flex-col justify-end py-8 text-white'>
+        <h1 className='text-4xl font-bold mb-2'>
+          {isLogin ? "Welcome Back!" : "Get Started"}
+        </h1>
+        <p className='text-lg font-light text-gray-300'>
+          {isLogin
+            ? "Sign in to continue to your account."
+            : "Join us and start shopping today."}
+        </p>
+      </div>
+
+      {/* --- FORM SECTION --- */}
+      <div className='h-[70vh] bg-gray-100 rounded-tr-[30%] px-8 pt-10 shadow-2xl'>
+        <form
+          onSubmit={handleSubmit(submitHandle)}
+          className='max-w-lg mx-auto flex flex-col gap-4'>
+          <h2 className='text-Deep-Navy-Blue font-bold text-3xl mb-2'>
+            {isLogin ? "Sign In" : "Create Account"}
+          </h2>
+
+          {!isLogin && (
+            <div className='flex gap-4'>
+              {/* firstName */}
+              <div className='w-1/2 flex flex-col gap-1'>
+                <input
+                  {...register("firstName", { required: "Required" })}
+                  placeholder='First Name'
+                  className={getInputClass(errors.firstName)}
+                />
+                {errors.firstName && (
+                  <span className='text-xs text-red-500 pl-1'>
+                    {errors.firstName.message}
+                  </span>
+                )}
+              </div>
+              {/* lastName */}
+              <div className='w-1/2 flex flex-col gap-1'>
+                <input
+                  {...register("lastName", { required: "Required" })}
+                  placeholder='Last Name'
+                  className={getInputClass(errors.lastName)}
+                />
+                {errors.lastName && (
+                  <span className='text-xs text-red-500 pl-1'>
+                    {errors.lastName.message}
+                  </span>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Email */}
+          <div className='flex flex-col gap-1'>
+            <input
+              {...register("email", {
+                required: "Email is required",
+                pattern: {
+                  value: /^\S+@\S+$/i,
+                  message: "Invalid email format",
+                },
+              })}
+              placeholder='Email Address'
+              type='email'
+              className={getInputClass(errors.email)}
+            />
+            {errors.email && (
+              <span className='text-xs text-red-500 pl-1'>
+                {errors.email.message}
+              </span>
+            )}
           </div>
-          <form
-            onSubmit={handleSubmit(submitHandler)}
-            className='rounded-tr-[30%] mx-auto h-[70vh] px-10 bg-gray-200 py-10'>
-            <div className='my-5'>
-              <h1 className='text-Deep-Navy-Blue font-bold text-4xl'>
-                {isLogin ? "Login" : "Sign Up"}
-              </h1>
-            </div>
-            {/* firstName input */}
-            <div
-              className='flex flex-col gap-1 mt-4 group h-[15%]'
-              style={isLogin ? { display: "none" } : { display: "flex" }}>
-              <label
-                htmlFor='firstName'
-                className='text-lg  group-focus-within:text-Deep-Navy-Blue group-focus-within:font-semibold'>
-                FirstName
-              </label>
-              <input
-                {...register("firstName", { required: "This is required" })}
-                className=' outline-none rounded-lg px-2 py-2 bg-white group-focus-within:border-Deep-Navy-Blue! group-focus-within:border-2!'
-                style={
-                  errors.firstName?.message
-                    ? { border: "2px solid red" }
-                    : { border: "1px solid black" }
-                }
-                type='text'
-                id='firstName'
-              />
-              <p className='text-red-500 font-semibold w-fit ml-48'>
-                {errors.firstName?.message}
-              </p>
-            </div>
-            {/* lastName input */}
-            <div
-              className='flex flex-col gap-1 mt-2 group h-[15%]'
-              style={isLogin ? { display: "none" } : { display: "flex" }}>
-              <label
-                htmlFor='lastName'
-                className='text-lg  group-focus-within:text-Deep-Navy-Blue group-focus-within:font-semibold'>
-                LastName
-              </label>
-              <input
-                {...register("lastName", { required: "This is required" })}
-                className='border outline-none rounded-lg px-2 py-2 bg-white group-focus-within:border-Deep-Navy-Blue! group-focus-within:border-2! '
-                style={
-                  errors.lastName?.message
-                    ? { border: "2px solid red" }
-                    : { border: "1px solid black" }
-                }
-                type='text'
-                id='lastName'
-              />
-              <p className='text-red-500 font-semibold w-fit ml-48'>
-                {errors.lastName?.message}
-              </p>
-            </div>
-            {/* email input */}
-            <div className='flex flex-col gap-1 mt-2 group h-[15%]'>
-              <label
-                htmlFor='email'
-                className='text-lg  group-focus-within:text-Deep-Navy-Blue group-focus-within:font-semibold'>
-                Email
-              </label>
-              <input
-                {...register("email", { required: "This is required" })}
-                style={
-                  errors.email?.message
-                    ? { border: "2px solid red" }
-                    : { border: "1px solid black" }
-                }
-                className='border outline-none rounded-lg px-2 py-2 bg-white group-focus-within:border-Deep-Navy-Blue! group-focus-within:border-2!'
-                type='email'
-                id='email'
-              />
-              <p className='text-red-500 font-semibold w-fit ml-48'>
-                {errors.email?.message}
-              </p>
-            </div>
-            {/* password input */}
-            <div className='flex flex-col gap-1 mt-2 group h-[15%]'>
-              <label
-                htmlFor='password'
-                className='text-lg  group-focus-within:text-Deep-Navy-Blue group-focus-within:font-semibold'>
-                Password
-              </label>
-              <input
-                {...register("password", {
-                  required: "This is required",
-                  minLength: { value: 6, message: "Minimum length is 6" },
-                })}
-                style={
-                  errors.password?.message
-                    ? { border: "2px solid red" }
-                    : { border: "1px solid black" }
-                }
-                className='border outline-none rounded-lg px-2 py-2 bg-white group-focus-within:border-Deep-Navy-Blue! group-focus-within:border-2!'
-                type='password'
-                id='password'
-              />
-              <p className='text-red-500 font-semibold  w-fit ml-48'>
-                {errors.password?.message}
-              </p>
-            </div>
-            <div className='mt-8 bg-Bright-Orange text-lg text-white font-semibold text-center rounded-lg px-4 py-2 w-full'>
-              <button className='w-full outline-none border-none'>
-                {isLogin ? "Sign In" : "Sign Up"}
-              </button>
-            </div>
-            <div className='mt-2 flex gap-2 text-lg '>
-              <p>{isLogin ? "New here?" : "Already have an account ?"}</p>{" "}
-              <p
-                className='text-Deep-Navy-Blue font-semibold text-xl'
-                onClick={() => setIsLogin(!isLogin)}>
-                {isLogin ? "Create Account" : "Login"}
-              </p>
-            </div>
-          </form>
-        </div>
-      </section>
-    </>
+
+          {/* Password */}
+          <div className='flex flex-col gap-1'>
+            <input
+              {...register("password", {
+                required: "Password is required",
+                minLength: { value: 6, message: "Min 6 characters" },
+              })}
+              placeholder='Password'
+              type='password'
+              className={getInputClass(errors.password)}
+            />
+            {errors.password && (
+              <span className='text-xs text-red-500 pl-1'>
+                {errors.password.message}
+              </span>
+            )}
+          </div>
+
+          {/* Submit Button */}
+          <button className='mt-6 bg-Bright-Orange active:scale-95 transition-transform text-white font-bold text-lg rounded-xl py-3 w-full shadow-lg shadow-orange-200'>
+            {isLogin ? "Sign In" : "Sign Up"}
+          </button>
+
+          {/* Toggle Link */}
+          <div className='mt-4 flex justify-center gap-2 text-gray-600 font-medium'>
+            <p>{isLogin ? "New here?" : "Already have an account?"}</p>
+            <button
+              type='button' // Important: Prevent form submit
+              className='text-Deep-Navy-Blue font-bold hover:underline'
+              onClick={() => setIsLogin(!isLogin)}>
+              {isLogin ? "Create Account" : "Login"}
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
   );
 }
 
