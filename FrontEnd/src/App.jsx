@@ -1,12 +1,11 @@
-import React from "react";
-import Login from "./Pages/Login";
+import AuthenticationPage from "./Pages/AuthenticationPage";
 import Navbar from "./Components/Navbar";
 
 function App() {
   return (
     <div className='w-screen'>
-      {/* <Navbar /> */}
-      <Login />
+      <Navbar />
+      <AuthenticationPage />
     </div>
   );
 }
