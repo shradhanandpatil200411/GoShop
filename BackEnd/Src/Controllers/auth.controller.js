@@ -2,6 +2,27 @@ const userModel = require("../Model/user.model");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
+async function currentUserController(req, res) {
+  try {
+    const { token } = req.cookies;
+    if (!token) {
+      return res.status(401).json({ message: "please login again" });
+    }
+    const isValidToken = jwt.verify(token, process.env.JWT_SECRET);
+    if (!isValidToken) {
+      return res.status(401).json({ message: "invalid user" });
+    }
+
+    const getUserData = await userModel
+      .findById(isValidToken.id)
+      .select("-password");
+
+    res.status(200).json({ message: "Get user Data", data: { getUserData } });
+  } catch (err) {
+    res.status(401).json({ message: "please login", error: err });
+  }
+}
+
 async function registerController(req, res) {
   try {
     const {
@@ -37,7 +58,9 @@ async function loginController(req, res) {
       return res.status(404).json({ message: "email is wrong" });
     }
 
-    if (password != inputPassword) {
+    let hashPassword = await bcrypt.compare(inputPassword, password);
+
+    if (!hashPassword) {
       return res.status(401).json({ message: "password wrong" });
     }
 
@@ -54,25 +77,14 @@ async function loginController(req, res) {
   }
 }
 
-async function currentUserController(req, res) {
-  try {
-    const { token } = req.cookies;
-    if (!token) {
-      return res.status(401).json({ message: "please login again" });
-    }
-    const isValidToken = jwt.verify(token, process.env.JWT_SECRET);
-    if (!isValidToken) {
-      return res.status(401).json({ message: "invalid user" });
-    }
-
-    const getUserData = await userModel
-      .findById(isValidToken.id)
-      .select("-password");
-
-    res.status(200).json({ message: "Get user Data", data: { getUserData } });
-  } catch (err) {
-    res.status(401).json({ message: "please login", error: err });
-  }
+async function logOutController(req, res) {
+  res.cookie("token", null);
+  res.send("user logout successfully");
 }
 
-module.exports = { registerController, loginController, currentUserController };
+module.exports = {
+  registerController,
+  loginController,
+  currentUserController,
+  logOutController,
+};

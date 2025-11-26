@@ -1,16 +1,16 @@
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import {
   asyncLoginUserAction,
   asyncRegisterUserAction,
 } from "../Store/Actions/userActions";
-import { useNavigate } from "react-router";
 
 function AuthenticationPage() {
   const [isLogin, setIsLogin] = useState(false);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const {
     register,
@@ -35,8 +35,7 @@ function AuthenticationPage() {
   const submitHandle = (data) => {
     if (isLogin) {
       const loginData = { email: data.email, password: data.password };
-      dispatch(asyncLoginUserAction(loginData));
-      navigate("/home");
+      dispatch(asyncLoginUserAction(loginData, navigate));
     } else {
       const registerData = {
         fullName: { firstName: data.firstName, lastName: data.lastName },

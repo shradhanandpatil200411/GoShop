@@ -1,20 +1,25 @@
-import React from "react";
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { asyncCurrentUserAction } from "../Store/Actions/userActions";
+import { useNavigate } from "react-router";
+import { asyncLogOutUserAction } from "../Store/Actions/userActions";
 
 function Home() {
-  const dispatch = useDispatch();
   const { data } = useSelector((store) => store?.user);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(asyncCurrentUserAction());
-  }, []);
+  const handelLogout = (navigate) => {
+    dispatch(asyncLogOutUserAction(navigate));
+  };
 
   return (
     <>
       <div className=' h-screen text-4xl w-full pt-20'>
         Welcome {data?.fullName?.firstName} {data?.fullName?.lastName}
+        <button
+          className='px-4 py-2 text-white bg-Bright-Orange rounded-lg text-xl mx-4'
+          onClick={() => handelLogout(navigate)}>
+          Logout
+        </button>
       </div>
     </>
   );

@@ -14,7 +14,7 @@ const StoreLogo = () => {
           fill='#FF9F1C'
         />
         {/* Lightning Bolt - White */}
-        <path d='M13 2L11 8H15L9 14L11 8H7L13 2Z' fill='#FFFFFF' />
+        <path d='M13 2L11 8H15L9 14L11 8H7L13 2Z' fill='#FF9F1C' />
       </svg>
 
       <h1 className='text-4xl font-black italic  text-white'>

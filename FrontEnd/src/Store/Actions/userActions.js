@@ -2,12 +2,13 @@ import { toast } from "react-toastify";
 import axios from "../../API/axios";
 import { loginAction } from "../Reducer/userSlice";
 
-export const asyncCurrentUserAction = () => async (dispatch) => {
+export const asyncCurrentUserAction = (navigate) => async (dispatch) => {
   try {
     const getUser = await axios.get("/auth/user");
     dispatch(loginAction(getUser?.data?.data?.getUserData));
   } catch (err) {
-    console.log(err);
+    toast.error(err.response.data.message);
+    navigate("/");
   }
 };
 
@@ -22,13 +23,21 @@ export const asyncRegisterUserAction = (user, setIsLogin) => async () => {
   }
 };
 
-export const asyncLoginUserAction = (user) => async (dispatch) => {
+export const asyncLoginUserAction = (user, navigate) => async (dispatch) => {
   try {
     const data = await axios.post("/auth/login", user);
-    toast.success(data.data?.message);
+    toast.success(data?.data?.message);
     dispatch(asyncCurrentUserAction());
+    navigate("/home");
   } catch (err) {
     const { response } = err;
     toast.error(response.data.message);
   }
+};
+
+export const asyncLogOutUserAction = (navigate) => async (dispatch) => {
+  const { data } = await axios.post("/auth/logout");
+  dispatch(loginAction());
+  toast.success(data);
+  navigate("/");
 };
