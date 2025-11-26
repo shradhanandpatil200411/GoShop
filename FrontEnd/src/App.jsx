@@ -5,10 +5,14 @@ import { useEffect } from "react";
 import { asyncCurrentUserAction } from "./Store/Actions/userActions";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
+import gsap from "gsap";
+import { SplitText } from "gsap/all";
+import { useGSAP } from "@gsap/react";
 
 function App() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  gsap.registerPlugin(SplitText, useGSAP);
   useEffect(() => {
     dispatch(asyncCurrentUserAction(navigate));
   }, []);
