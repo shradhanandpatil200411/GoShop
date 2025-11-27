@@ -39,6 +39,7 @@ async function registerController(req, res) {
       fullName: { firstName, lastName },
       email,
       password: hashPassword,
+      isAdmin: false,
     });
     res.status(201).json({ message: "User Register Successfully", user });
   } catch (err) {

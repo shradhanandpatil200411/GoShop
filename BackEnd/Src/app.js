@@ -3,6 +3,7 @@ const dotEnv = require("dotenv");
 const authRouter = require("./Routes/auth.route");
 const cookie = require("cookie-parser");
 const cors = require("cors");
+const productRoute = require("./Routes/produnct.route");
 const app = express();
 dotEnv.config();
 app.use(cookie());
@@ -20,4 +21,5 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 app.use("/api/auth", authRouter);
+app.use("/api/product", productRoute);
 module.exports = app;
