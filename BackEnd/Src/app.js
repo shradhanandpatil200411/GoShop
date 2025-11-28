@@ -1,11 +1,11 @@
 const express = require("express");
 const dotEnv = require("dotenv");
+dotEnv.config();
 const authRouter = require("./Routes/auth.route");
 const cookie = require("cookie-parser");
 const cors = require("cors");
-const productRoute = require("./Routes/produnct.route");
+const productRoute = require("./Routes/product.route");
 const app = express();
-dotEnv.config();
 app.use(cookie());
 
 const corsOptions = {
