@@ -18,8 +18,11 @@ async function uploadImgMiddleware(req, res, next) {
     };
     req.imageDetails = imageDetails;
     next();
-  } catch (err) {
-    res.send(err);
+  } catch (e) {
+    res.status(500).json({
+      success: false,
+      error: e.message,
+    });
   }
 }
 

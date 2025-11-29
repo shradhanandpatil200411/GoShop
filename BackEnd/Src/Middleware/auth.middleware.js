@@ -15,7 +15,10 @@ const authMiddleware = async (req, res, next) => {
     req.user = user;
     next();
   } catch (err) {
-    res.send(err);
+    res.status(500).json({
+      success: false,
+      error: e.message,
+    });
   }
 };
 
