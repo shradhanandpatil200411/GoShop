@@ -1,17 +1,23 @@
-const { v4: uuid4 } = require("uuid");
-const uploadToCloud = require("../Service/storage.service");
+const productModel = require("../Model/product.model");
+
 const createProductController = async (req, res) => {
-  const user = req.user;
-  const getImg = req.file;
-  const data = {
-    file: getImg.buffer,
-    name: uuid4(),
-  };
+  try {
+    const imageInfo = req.imageDetails;
+    const productDetails = req.body;
 
-  const response = await uploadToCloud(data);
-  console.log(response);
+    if (!imageInfo && !productDetails) {
+      return res.status(422).json({ message: "Unprocessable Content error" });
+    }
 
-  res.status(200).json({ message: "product created", data: user });
+    const product = await productModel.create({
+      imageInfo,
+      productDetails,
+    });
+
+    res.status(201).json({ message: "Product created Successfully", product });
+  } catch (err) {
+    res.send(err);
+  }
 };
 
 module.exports = { createProductController };
