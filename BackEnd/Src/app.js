@@ -1,12 +1,9 @@
 const express = require("express");
 const dotEnv = require("dotenv");
 dotEnv.config();
-const authRouter = require("./Routes/auth.route");
 const cookie = require("cookie-parser");
 const cors = require("cors");
-const productRoute = require("./Routes/product.route");
 const app = express();
-app.use(cookie());
 
 const corsOptions = {
   origin: "http://localhost:5173",
@@ -16,9 +13,14 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+
 // Preflight responses are handled by the main CORS middleware above.
 
+app.use(cookie());
 app.use(express.json());
+
+const productRoute = require("./Routes/product.route");
+const authRouter = require("./Routes/auth.route");
 
 app.use("/api/auth", authRouter);
 app.use("/api/product", productRoute);
