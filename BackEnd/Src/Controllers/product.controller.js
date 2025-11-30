@@ -47,4 +47,13 @@ const createProductController = async (req, res) => {
   }
 };
 
-module.exports = { createProductController };
+const getAllProductController = async (req, res) => {
+  try {
+    const getAllProducts = await productModel.find();
+    res.json({ data: { getAllProducts } });
+  } catch (err) {
+    res.send(err.message);
+  }
+};
+
+module.exports = { createProductController, getAllProductController };

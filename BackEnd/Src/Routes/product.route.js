@@ -1,6 +1,7 @@
 const express = require("express");
 const {
   createProductController,
+  getAllProductController,
 } = require("../Controllers/product.controller");
 const multer = require("multer");
 
@@ -17,5 +18,7 @@ productRoute.post(
   uploadImgMiddleware,
   createProductController
 );
+
+productRoute.get("/", authMiddleware, getAllProductController);
 
 module.exports = productRoute;
