@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 import axios from "../../API/axios";
-import { loginAction } from "../Reducer/userSlice";
+import { loginAction, logOutAction } from "../Reducer/userSlice";
 
 export const asyncCurrentUserAction = (navigate) => async (dispatch) => {
   try {
@@ -37,7 +37,7 @@ export const asyncLoginUserAction = (user, navigate) => async (dispatch) => {
 
 export const asyncLogOutUserAction = (navigate) => async (dispatch) => {
   const { data } = await axios.post("/auth/logout");
-  dispatch(loginAction());
+  dispatch(logOutAction());
   toast.success(data);
   navigate("/");
 };
