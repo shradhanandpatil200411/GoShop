@@ -17,6 +17,10 @@ const createProductController = async (req, res) => {
       tags,
     } = req.body;
 
+    let colorsArray = JSON.parse(colors);
+    let sizesArray = JSON.parse(sizes);
+    let tagsArray = JSON.parse(tags);
+
     if (!imageInfo && !productDetails) {
       return res.status(422).json({ message: "Unprocessable Content error" });
     }
@@ -32,9 +36,9 @@ const createProductController = async (req, res) => {
         salePrice,
         totalStock,
         brand,
-        colors,
-        sizes,
-        tags,
+        colors: colorsArray,
+        sizes: sizesArray,
+        tags: tagsArray,
       },
     });
 

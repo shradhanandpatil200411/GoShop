@@ -12,7 +12,6 @@ const productSchema = new mongooses.Schema(
       title: {
         type: String,
         required: true,
-        trim: true,
       },
       description: {
         type: String,

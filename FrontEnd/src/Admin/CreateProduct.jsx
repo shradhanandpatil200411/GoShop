@@ -1,7 +1,10 @@
 import { useForm } from "react-hook-form";
 import InputFiled from "../Components/InputFiled";
+import { asyncCreateProduct } from "../Store/Actions/productAction";
+import { useDispatch } from "react-redux";
 
 export default function CreateProduct() {
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -10,20 +13,57 @@ export default function CreateProduct() {
   } = useForm();
 
   const inputClass = (errors) => {
-    return `outline-none px-2 text-lg py-1 w-full rounded-lg focus-within:border-Bright-Orange ${
-      errors ? "border-red border-2" : "border-white border-2"
+    return `outline-none px-2 text-lg py-1  w-full rounded-lg focus-within:border-Bright-Orange ${
+      errors ? "border-red-400 border-2" : "border-2"
     }`;
   };
 
   const submitHandler = (productData) => {
-    console.log(productData);
+    const file = productData.img;
+    const {
+      title,
+      description,
+      category,
+      subCategory,
+      brand,
+      price,
+      salePrice,
+      totalStock,
+      colors,
+      tag,
+      xxl,
+      xl,
+      l,
+      sm,
+      xs,
+    } = productData;
+    const color = colors.split(",");
+    const tags = tag.split(",");
+
+    const size = [{ xxl: xxl }, { xl: xl }, { l: l }, { sm: sm }, { xs: xs }];
+
+    const formData = new FormData();
+    formData.append("image", file[0]);
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("category", category);
+    formData.append("subCategory", subCategory);
+    formData.append("brand", brand);
+    formData.append("price", price);
+    formData.append("salePrice", salePrice);
+    formData.append("totalStock", totalStock);
+    formData.append("colors", JSON.stringify(color));
+    formData.append("sizes", JSON.stringify(size));
+    formData.append("tags", JSON.stringify(tags));
+
+    dispatch(asyncCreateProduct(formData));
     reset();
   };
 
   return (
     <>
-      <section className='pt-20 pb-5 px-5 bg-Deep-Navy-Blue  text-white '>
-        <div className='h-[30vh] border'>
+      <section className='pt-20 pb-5 px-5 bg-Deep-Navy-Blue flex flex-col lg:flex lg:flex-row  text-white '>
+        <div className='lg:h-screen h-[30vh] lg:w-1/2 border'>
           <h1>Demo card</h1>
         </div>
         <div>
@@ -34,7 +74,6 @@ export default function CreateProduct() {
                   register={register}
                   name='title'
                   isRequire='Title is require'
-                  inputClass={inputClass}
                   errors={errors.title}
                   minLength='4'
                   maxLength='50'
@@ -48,7 +87,6 @@ export default function CreateProduct() {
                   register={register}
                   name='img'
                   isRequire='Img is require'
-                  inputClass={inputClass}
                   errors={errors.img}
                   inputType='file'
                 />
@@ -63,7 +101,7 @@ export default function CreateProduct() {
               </label>
               <select
                 {...register("category", { required: "category is require" })}
-                className='bg-Deep-Navy-Blue text-sm w-1/2 rounded group-focus-within:border-Bright-Orange  outline-none border-white border-2'
+                className='bg-Deep-Navy-Blue text-sm w-1/2 rounded group-focus-within:border-Bright-Orange  outline-none  border-2'
                 name='category'>
                 <option value='men'>Men</option>
                 <option value='women'>Women</option>
@@ -81,7 +119,6 @@ export default function CreateProduct() {
                 register={register}
                 name='subCategory'
                 isRequire='Sub Category is require'
-                inputClass={inputClass}
                 errors={errors.subCategory}
                 minLength='2'
                 maxLength='50'
@@ -95,7 +132,6 @@ export default function CreateProduct() {
                   register={register}
                   name='price'
                   isRequire='Price is require'
-                  inputClass={inputClass}
                   errors={errors.price}
                   minLength='1'
                   maxLength='7'
@@ -108,7 +144,6 @@ export default function CreateProduct() {
                   register={register}
                   name='salePrice'
                   isRequire='Sale price require'
-                  inputClass={inputClass}
                   errors={errors.salePrice}
                   minLength='1'
                   maxLength='7'
@@ -123,7 +158,6 @@ export default function CreateProduct() {
                   register={register}
                   name='totalStock'
                   isRequire='Total Stock is require'
-                  inputClass={inputClass}
                   errors={errors.totalStock}
                   minLength='1'
                   maxLength='6'
@@ -136,7 +170,6 @@ export default function CreateProduct() {
                   register={register}
                   name='brand'
                   isRequire='Brand name is required'
-                  inputClass={inputClass}
                   errors={errors.brand}
                   minLength='2'
                   maxLength='50'
@@ -149,42 +182,75 @@ export default function CreateProduct() {
                   register={register}
                   name='colors'
                   isRequire='false'
-                  inputClass={inputClass}
-                  errors={errors}
+                  errors={errors.colors}
                   minLength='2'
                   maxLength='50'
                   inputType='text'
                   placeholder='Colors'
                 />
               </div>
-              <div className='w-full mt-3 group'>
-                <label
-                  className='pr-2 text-lg group-focus-within:text-Bright-Orange'
-                  htmlFor='category'>
-                  Size
-                </label>
-                <select
-                  {...register("category", { required: "category is require" })}
-                  className='bg-Deep-Navy-Blue text-sm w-1/2 rounded group-focus-within:border-Bright-Orange  outline-none border-white border-2'
-                  name='category'>
-                  <option value='xxl'>xxl</option>
-                  <option value='xl'>xl</option>
-                  <option value='lg'>lg</option>
-                  <option value='sm'>sm</option>
-                  <option value='xs'>xs</option>
-                </select>
-                {errors.category && (
-                  <span className='text-xs text-red-500 pl-1'>
-                    {errors.category.message}
-                  </span>
-                )}
+              <div className='flex gap-2 w-full mt-3 group'>
+                <div>
+                  <label className='mx-1 text-2xl' htmlFor='xxl'>
+                    XXL
+                  </label>
+                  <input
+                    {...register("xxl")}
+                    className='size-5'
+                    type='checkbox'
+                    id='xxl'
+                  />
+                </div>
+                <div>
+                  <label className='mx-1 text-2xl' htmlFor='xl'>
+                    XL
+                  </label>
+                  <input
+                    {...register("xl")}
+                    className='size-5'
+                    type='checkbox'
+                    id='xl'
+                  />
+                </div>
+                <div>
+                  <label className='mx-1 text-2xl' htmlFor='l'>
+                    L
+                  </label>
+                  <input
+                    {...register("l")}
+                    className='size-5'
+                    type='checkbox'
+                    id='l'
+                  />
+                </div>
+                <div>
+                  <label className='mx-1 text-2xl' htmlFor='sm'>
+                    SM
+                  </label>
+                  <input
+                    {...register("sm")}
+                    className='size-5'
+                    type='checkbox'
+                    id='sm'
+                  />
+                </div>
+                <div>
+                  <label className='mx-1 text-2xl' htmlFor='xs'>
+                    XS
+                  </label>
+                  <input
+                    {...register("xs")}
+                    className='size-5'
+                    type='checkbox'
+                    id='xs'
+                  />
+                </div>
               </div>
               <div className='w-full mt-3'>
                 <InputFiled
                   register={register}
                   name='tag'
                   isRequire='Tag is require'
-                  inputClass={inputClass}
                   errors={errors.tag}
                   minLength='2'
                   maxLength='50'
