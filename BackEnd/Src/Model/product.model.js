@@ -46,7 +46,7 @@ const productSchema = new mongooses.Schema(
 
       colors: [String], // e.g., ["Red", "Black"] -> AI handles "Show me red shirts"
 
-      sizes: [String], // e.g., ["S", "M", "L", "XL", "UK 9"]
+      sizes: [Object], // e.g., ["S", "M", "L", "XL", "UK 9"]
 
       tags: [String],
       // ⭐ MOST IMPORTANT FOR AI:

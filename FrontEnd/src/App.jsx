@@ -17,7 +17,7 @@ function App() {
     dispatch(asyncCurrentUserAction(navigate));
   }, []);
   return (
-    <div className='w-screen'>
+    <div className='w-screen bg-linear-to-r from-Deep-Navy-Blue to-cyan-800 '>
       <Navbar />
       <MainRoutes />
       <ToastContainer />

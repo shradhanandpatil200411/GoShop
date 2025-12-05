@@ -9,38 +9,39 @@ import { NavLink } from "react-router";
 
 function Navbar() {
   const { isAuthenticated, data } = useSelector((store) => store.user);
-  const [menu, setMenu] = useState(true);
+  const [menu, setMenu] = useState(false);
   const navList = ["home", "men", "women", "kid"];
 
   return (
     <>
-      <nav className='flex justify-between items-center  bg-Deep-Navy-Blue/10 lg:bg-transparent  fixed backdrop-blur-2xl w-full z-50'>
-        <NavLink to='/home' className='pl-4 py-5'>
+      <nav className='flex  justify-between lg:justify-evenly items-center  bg-Deep-Navy-Blue/10 lg:bg-transparent  fixed backdrop-blur-2xl w-full z-50'>
+        <NavLink to='/home' className='pl-4'>
           <StoreLogo />
         </NavLink>
 
         {isAuthenticated && (
           <>
-            <NavLink to='/profile'>
-              <CgProfile className='text-5xl text-Bright-Orange' />
-            </NavLink>
-            <div className='flex px-4 py-5' onClick={() => setMenu(!menu)}>
+            <div
+              className='flex items-center px-4 '
+              onClick={() => setMenu(!menu)}>
+              <NavLink to='/profile'>
+                <CgProfile className='text-5xl text-Bright-Orange pr-4  lg:invisible' />
+              </NavLink>
               {menu && (
-                <IoMenu className='text-4xl cursor-pointer text-Bright-Orange' />
+                <IoMenu className='text-4xl cursor-pointer  text-Bright-Orange' />
               )}
             </div>
+
             {!menu && (
               <>
-                <div className='flex absolute top-0 w-screen h-screen bg-white/90 backdrop-blur-lg py-10 px-5'>
-                  <div className='flex w-screen gap-20  flex-col'>
+                <div className='flex lg:relative  lg:h-[2vh] lg:w-1/2 absolute top-0 w-screen h-screen lg:bg-transparent lg:text-white bg-white/90 backdrop-blur-lg py-10  px-5'>
+                  <div className='flex lg:flex-row w-screen gap-20 lg:gap-0 items-center  flex-col'>
                     {navList.map((n, index) => (
                       <div className='mx-auto' key={index}>
                         <Nav
                           name={
                             n.charAt(0).toUpperCase() + n.slice(1).toLowerCase()
                           }
-                          setMenu={setMenu}
-                          menu={menu}
                           route={"/" + n}
                         />
                       </div>
@@ -56,11 +57,14 @@ function Navbar() {
                   </div>
                   <RxCross2
                     onClick={() => setMenu(!menu)}
-                    className='text-5xl text-Bright-Orange cursor-pointer'
+                    className='text-5xl text-Bright-Orange cursor-pointer lg:hidden'
                   />
                 </div>
               </>
             )}
+            <NavLink to='/profile'>
+              <CgProfile className='text-5xl text-Bright-Orange pr-4 invisible lg:visible' />
+            </NavLink>
           </>
         )}
       </nav>

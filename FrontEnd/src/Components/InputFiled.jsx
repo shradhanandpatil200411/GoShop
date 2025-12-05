@@ -34,7 +34,7 @@ export default function InputFiled({
         className={inputClass(errors)}
       />
       {errors && (
-        <span className='text-xs text-red-500 pl-1'>{errors.message}</span>
+        <span className='text-xs text-red-500 pl-1 '>{errors.message}</span>
       )}
     </>
   );

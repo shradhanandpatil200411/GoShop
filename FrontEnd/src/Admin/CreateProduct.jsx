@@ -2,6 +2,8 @@ import { useForm } from "react-hook-form";
 import InputFiled from "../Components/InputFiled";
 import { asyncCreateProduct } from "../Store/Actions/productAction";
 import { useDispatch } from "react-redux";
+import ProductCard from "../Components/ProductCard";
+import { createFormData } from "../utils/createFormData";
 
 export default function CreateProduct() {
   const dispatch = useDispatch();
@@ -10,6 +12,7 @@ export default function CreateProduct() {
     handleSubmit,
     formState: { errors },
     reset,
+    watch,
   } = useForm();
 
   const inputClass = (errors) => {
@@ -19,60 +22,34 @@ export default function CreateProduct() {
   };
 
   const submitHandler = (productData) => {
-    const file = productData.img;
-    const {
-      title,
-      description,
-      category,
-      subCategory,
-      brand,
-      price,
-      salePrice,
-      totalStock,
-      colors,
-      tag,
-      xxl,
-      xl,
-      l,
-      sm,
-      xs,
-    } = productData;
-    const color = colors.split(",");
-    const tags = tag.split(",");
+    const data = createFormData(productData);
 
-    const size = [{ xxl: xxl }, { xl: xl }, { l: l }, { sm: sm }, { xs: xs }];
-
-    const formData = new FormData();
-    formData.append("image", file[0]);
-    formData.append("title", title);
-    formData.append("description", description);
-    formData.append("category", category);
-    formData.append("subCategory", subCategory);
-    formData.append("brand", brand);
-    formData.append("price", price);
-    formData.append("salePrice", salePrice);
-    formData.append("totalStock", totalStock);
-    formData.append("colors", JSON.stringify(color));
-    formData.append("sizes", JSON.stringify(size));
-    formData.append("tags", JSON.stringify(tags));
-
-    dispatch(asyncCreateProduct(formData));
+    dispatch(asyncCreateProduct(data));
     reset();
   };
 
   return (
     <>
-      <section className='pt-20 pb-5 px-5 bg-Deep-Navy-Blue flex flex-col lg:flex lg:flex-row  text-white '>
-        <div className='lg:h-screen h-[30vh] lg:w-1/2 border'>
-          <h1>Demo card</h1>
+      <section className='pt-20 pb-5 lg:px-20 lg:gap-10 flex flex-col lg:flex lg:flex-row  text-white '>
+        <div className='lg:h-[80vh] w-9/12 mx-auto   h-[55vh]   lg:w-4/12  '>
+          <ProductCard
+            title={watch("title")}
+            subCategory={watch("subCategory")}
+            price={watch("price")}
+            salePrice={watch("salePrice")}
+            description={watch("description")}
+          />
         </div>
-        <div>
-          <form className='mt-5' onSubmit={handleSubmit(submitHandler)}>
-            <div className='flex gap-2 '>
-              <div className='w-8/12'>
+        <div className='lg:w-8/12'>
+          <form
+            className='flex flex-col  gap-5 p-5'
+            onSubmit={handleSubmit(submitHandler)}>
+            <div className='flex gap-5 '>
+              <div className='w-1/2'>
                 <InputFiled
                   register={register}
                   name='title'
+                  watch={watch}
                   isRequire='Title is require'
                   errors={errors.title}
                   minLength='4'
@@ -82,7 +59,7 @@ export default function CreateProduct() {
                 />
               </div>
 
-              <div className='w-6/12'>
+              <div className='w-1/2 flex gap-2 '>
                 <InputFiled
                   register={register}
                   name='img'
@@ -90,44 +67,52 @@ export default function CreateProduct() {
                   errors={errors.img}
                   inputType='file'
                 />
+                <div>
+                  <button className='text-sm py-2 px-4 rounded cursor-pointer font-semibold bg-Bright-Orange border-none'>
+                    Upload
+                  </button>
+                </div>
               </div>
             </div>
 
-            <div className='w-full mt-3 group'>
-              <label
-                className='pr-2 text-lg group-focus-within:text-Bright-Orange'
-                htmlFor='category'>
-                Category
-              </label>
-              <select
-                {...register("category", { required: "category is require" })}
-                className='bg-Deep-Navy-Blue text-sm w-1/2 rounded group-focus-within:border-Bright-Orange  outline-none  border-2'
-                name='category'>
-                <option value='men'>Men</option>
-                <option value='women'>Women</option>
-                <option value='kids'>Kids</option>
-                <option value='accessories'>Accessories</option>
-              </select>
-              {errors.category && (
-                <span className='text-xs text-red-500 pl-1'>
-                  {errors.category.message}
-                </span>
-              )}
+            <div className='flex w-full gap-5'>
+              <div className='w-1/2  group '>
+                <label
+                  className='pr-2 text-lg group-focus-within:text-Bright-Orange'
+                  htmlFor='category'>
+                  Category
+                </label>
+                <select
+                  {...register("category", { required: "category is require" })}
+                  className='bg-Deep-Navy-Blue text-sm w-8/12 py-2 rounded group-focus-within:border-Bright-Orange  outline-none  border-2'
+                  name='category'>
+                  <option value='men'>Men</option>
+                  <option value='women'>Women</option>
+                  <option value='kids'>Kids</option>
+                  <option value='accessories'>Accessories</option>
+                </select>
+                {errors.category && (
+                  <span className='text-xs text-red-500 pl-1'>
+                    {errors.category.message}
+                  </span>
+                )}
+              </div>
+              <div className='w-1/2 '>
+                <InputFiled
+                  register={register}
+                  name='subCategory'
+                  isRequire='Sub Category is require'
+                  errors={errors.subCategory}
+                  minLength='2'
+                  maxLength='50'
+                  inputType='text'
+                  placeholder='Sub Category T-Shirt, Jeans, Sneakers....'
+                />
+              </div>
             </div>
-            <div className='w-full mt-3'>
-              <InputFiled
-                register={register}
-                name='subCategory'
-                isRequire='Sub Category is require'
-                errors={errors.subCategory}
-                minLength='2'
-                maxLength='50'
-                inputType='text'
-                placeholder='Sub Category T-Shirt, Jeans, Sneakers....'
-              />
-            </div>
+
             <div className='flex gap-5'>
-              <div className='w-full mt-3'>
+              <div className='w-full '>
                 <InputFiled
                   register={register}
                   name='price'
@@ -139,7 +124,7 @@ export default function CreateProduct() {
                   placeholder='Price'
                 />
               </div>
-              <div className='w-full mt-3'>
+              <div className='w-full '>
                 <InputFiled
                   register={register}
                   name='salePrice'
@@ -151,9 +136,7 @@ export default function CreateProduct() {
                   placeholder='Sale Price'
                 />
               </div>
-            </div>
-            <div>
-              <div className='w-full mt-3'>
+              <div className='w-full'>
                 <InputFiled
                   register={register}
                   name='totalStock'
@@ -165,101 +148,109 @@ export default function CreateProduct() {
                   placeholder='Total Stock'
                 />
               </div>
-              <div className='w-full mt-3'>
-                <InputFiled
-                  register={register}
-                  name='brand'
-                  isRequire='Brand name is required'
-                  errors={errors.brand}
-                  minLength='2'
-                  maxLength='50'
-                  inputType='text'
-                  placeholder='Brand Name'
-                />
-              </div>
-              <div className='w-full mt-3'>
-                <InputFiled
-                  register={register}
-                  name='colors'
-                  isRequire='false'
-                  errors={errors.colors}
-                  minLength='2'
-                  maxLength='50'
-                  inputType='text'
-                  placeholder='Colors'
-                />
-              </div>
-              <div className='flex gap-2 w-full mt-3 group'>
-                <div>
-                  <label className='mx-1 text-2xl' htmlFor='xxl'>
-                    XXL
-                  </label>
-                  <input
-                    {...register("xxl")}
-                    className='size-5'
-                    type='checkbox'
-                    id='xxl'
+            </div>
+
+            <div className='flex flex-col gap-5'>
+              <div className='flex gap-5 '>
+                <div className='w-1/2'>
+                  <InputFiled
+                    register={register}
+                    name='brand'
+                    isRequire='Brand name is required'
+                    errors={errors.brand}
+                    minLength='2'
+                    maxLength='50'
+                    inputType='text'
+                    placeholder='Brand Name'
                   />
                 </div>
-                <div>
-                  <label className='mx-1 text-2xl' htmlFor='xl'>
-                    XL
-                  </label>
-                  <input
-                    {...register("xl")}
-                    className='size-5'
-                    type='checkbox'
-                    id='xl'
-                  />
-                </div>
-                <div>
-                  <label className='mx-1 text-2xl' htmlFor='l'>
-                    L
-                  </label>
-                  <input
-                    {...register("l")}
-                    className='size-5'
-                    type='checkbox'
-                    id='l'
-                  />
-                </div>
-                <div>
-                  <label className='mx-1 text-2xl' htmlFor='sm'>
-                    SM
-                  </label>
-                  <input
-                    {...register("sm")}
-                    className='size-5'
-                    type='checkbox'
-                    id='sm'
-                  />
-                </div>
-                <div>
-                  <label className='mx-1 text-2xl' htmlFor='xs'>
-                    XS
-                  </label>
-                  <input
-                    {...register("xs")}
-                    className='size-5'
-                    type='checkbox'
-                    id='xs'
+                <div className='w-1/2'>
+                  <InputFiled
+                    register={register}
+                    name='colors'
+                    isRequire={false}
+                    errors={errors.colors}
+                    minLength='2'
+                    maxLength='50'
+                    inputType='text'
+                    placeholder='Colors'
                   />
                 </div>
               </div>
-              <div className='w-full mt-3'>
-                <InputFiled
-                  register={register}
-                  name='tag'
-                  isRequire='Tag is require'
-                  errors={errors.tag}
-                  minLength='2'
-                  maxLength='50'
-                  inputType='text'
-                  placeholder='Tags Casual, Wedding, Party....'
-                />
+              <div className='flex  gap-5'>
+                <div className='w-1/2'>
+                  <InputFiled
+                    register={register}
+                    name='tag'
+                    isRequire='Tag is require'
+                    errors={errors.tag}
+                    minLength='2'
+                    maxLength='50'
+                    inputType='text'
+                    placeholder='Tags Casual, Wedding, Party....'
+                  />
+                </div>
+                <div className='flex  gap-2 w-1/2  group'>
+                  <div>
+                    <label className='lg:mx-1 lg:text-2xl' htmlFor='xxl'>
+                      XXL
+                    </label>
+                    <input
+                      {...register("xxl")}
+                      className='lg:size-5 size-3'
+                      type='checkbox'
+                      id='xxl'
+                    />
+                  </div>
+                  <div>
+                    <label className='lg:mx-1 lg:text-2xl' htmlFor='xl'>
+                      XL
+                    </label>
+                    <input
+                      {...register("xl")}
+                      className='lg:size-5 size-3'
+                      type='checkbox'
+                      id='xl'
+                    />
+                  </div>
+                  <div>
+                    <label className='lg:mx-1 lg:text-2xl' htmlFor='l'>
+                      L
+                    </label>
+                    <input
+                      {...register("l")}
+                      className='lg:size-5 size-3'
+                      type='checkbox'
+                      id='l'
+                    />
+                  </div>
+                  <div>
+                    <label className='lg:mx-1 lg:text-2xl' htmlFor='sm'>
+                      SM
+                    </label>
+                    <input
+                      {...register("sm")}
+                      className='lg:size-5 size-3'
+                      type='checkbox'
+                      id='sm'
+                    />
+                  </div>
+                  <div>
+                    <label className='lg:mx-1 lg:text-2xl' htmlFor='xs'>
+                      XS
+                    </label>
+                    <input
+                      {...register("xs")}
+                      className='lg:size-5 size-3'
+                      type='checkbox'
+                      id='xs'
+                    />
+                  </div>
+                </div>
               </div>
             </div>
-            <div className='w-full mt-3'>
+
+            <div className='w-full '>
               <textarea
                 {...register("description", {
                   required: "Description is required",
@@ -278,7 +269,8 @@ export default function CreateProduct() {
                 </span>
               )}
             </div>
-            <div className='mt-4 mx-auto w-1/2'>
+
+            <div className=' mx-auto w-1/2'>
               <button className='bg-Bright-Orange w-full px-4 py-2  rounded '>
                 Submit
               </button>

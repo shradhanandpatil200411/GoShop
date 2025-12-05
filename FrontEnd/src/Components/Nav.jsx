@@ -1,12 +1,9 @@
 import { NavLink } from "react-router";
 
-export default function Nav({ route, name, setMenu, menu }) {
+export default function Nav({ route, name }) {
   return (
     <>
-      <NavLink
-        onClick={() => setMenu(!menu)}
-        className='text-4xl w-fit mx-auto mt-2'
-        to={route}>
+      <NavLink className='text-4xl lg:text-xl w-fit mx-auto' to={route}>
         {name}
       </NavLink>
     </>
