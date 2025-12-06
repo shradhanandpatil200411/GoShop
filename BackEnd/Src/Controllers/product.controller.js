@@ -60,4 +60,21 @@ const getAllProductController = async (req, res) => {
   }
 };
 
-module.exports = { createProductController, getAllProductController };
+const productDetailsController = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const getProduct = await productModel.findById(id);
+    if (!getProduct) {
+      return res.status(404).json({ message: "Product Not Found" });
+    }
+    res.status(200).json({ data: getProduct });
+  } catch (err) {
+    res.send(err.message);
+  }
+};
+
+module.exports = {
+  createProductController,
+  getAllProductController,
+  productDetailsController,
+};
