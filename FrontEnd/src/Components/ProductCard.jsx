@@ -1,3 +1,6 @@
+import { ImImages } from "react-icons/im";
+import { useSelector } from "react-redux";
+
 export default function ProductCard({
   title,
   subCategory,
@@ -5,11 +8,22 @@ export default function ProductCard({
   salePrice,
   description,
 }) {
+  const productData = useSelector((store) => store.product);
+  const { products } = productData;
+
   return (
     <>
-      <div className='w-full h-full'>
-        <div className=' w-full h-7/12 overflow-hidden rounded-t-2xl'>
-          <img className='w-full h-full ' src='' alt='product-img' />
+      <div className='w-full h-full '>
+        <div className=' w-full h-7/12 overflow-hidden rounded-t-2xl border'>
+          {products ? (
+            <img
+              className='w-full h-full '
+              src={products[products.length - 1]?.imageInfo?.imgUrl}
+              alt='product-img'
+            />
+          ) : (
+            <ImImages className='w-40 h-40 mx-auto my-10' />
+          )}
         </div>
         <div className='flex flex-col gap-2 justify-evenly h-5/12 bg-white rounded-b-2xl px-2 pb-3'>
           <h1 className='text-xl  text-Deep-Navy-Blue font-bold'>

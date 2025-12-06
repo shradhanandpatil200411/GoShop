@@ -9,6 +9,7 @@ export default function InputFiled({
   maxLength,
   inputType,
   placeholder,
+  id,
 }) {
   const inputClass = (errors) => {
     return `outline-none px-2 text-lg py-1  w-full rounded-lg focus-within:border-Bright-Orange ${
@@ -16,7 +17,7 @@ export default function InputFiled({
     }`;
   };
   return (
-    <>
+    <div className='flex flex-col'>
       <input
         {...register(name, {
           required: isRequire,
@@ -30,12 +31,13 @@ export default function InputFiled({
           },
         })}
         type={inputType}
+        id={id}
         placeholder={placeholder}
         className={inputClass(errors)}
       />
       {errors && (
         <span className='text-xs text-red-500 pl-1 '>{errors.message}</span>
       )}
-    </>
+    </div>
   );
 }

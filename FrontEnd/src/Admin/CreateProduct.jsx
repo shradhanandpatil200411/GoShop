@@ -11,7 +11,6 @@ export default function CreateProduct() {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
     watch,
   } = useForm();
 
@@ -23,14 +22,12 @@ export default function CreateProduct() {
 
   const submitHandler = (productData) => {
     const data = createFormData(productData);
-
     dispatch(asyncCreateProduct(data));
-    reset();
   };
 
   return (
     <>
-      <section className='pt-20 pb-5 lg:px-20 lg:gap-10 flex flex-col lg:flex lg:flex-row  text-white '>
+      <section className='pt-20 pb-5 lg:h-[120vh] h-[150vh] lg:px-20 lg:gap-10 flex flex-col lg:flex lg:flex-row  text-white '>
         <div className='lg:h-[80vh] w-9/12 mx-auto   h-[55vh]   lg:w-4/12  '>
           <ProductCard
             title={watch("title")}
@@ -63,15 +60,22 @@ export default function CreateProduct() {
                 <InputFiled
                   register={register}
                   name='img'
+                  id='img'
                   isRequire='Img is require'
                   errors={errors.img}
                   inputType='file'
                 />
-                <div>
-                  <button className='text-sm py-2 px-4 rounded cursor-pointer font-semibold bg-Bright-Orange border-none'>
-                    Upload
-                  </button>
-                </div>
+                <label
+                  type='button'
+                  htmlFor='img'
+                  className='text-sm py-2 px-4 rounded cursor-pointer font-semibold h-10  border-none'
+                  style={
+                    watch("img")?.length == 0
+                      ? { backgroundColor: "#FF9F1C" }
+                      : { backgroundColor: "#32e854" }
+                  }>
+                  {watch("img")?.length == 0 ? "Upload" : "Done"}
+                </label>
               </div>
             </div>
 
