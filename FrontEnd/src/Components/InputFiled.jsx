@@ -12,7 +12,7 @@ export default function InputFiled({
   id,
 }) {
   const inputClass = (errors) => {
-    return `outline-none px-2 text-lg py-1  w-full rounded-lg focus-within:border-Bright-Orange ${
+    return `outline-none px-2 text-lg py-1  w-full rounded-lg focus-within:border-Bright-Orange outline-none ${
       errors ? "border-red-400 border-2" : "border-2"
     }`;
   };

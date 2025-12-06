@@ -1,51 +1,30 @@
-import { ImImages } from "react-icons/im";
-import { useSelector } from "react-redux";
-
 export default function ProductCard({
   title,
   subCategory,
   price,
   salePrice,
   description,
+  img,
 }) {
-  const productData = useSelector((store) => store.product);
-  const { products } = productData;
-
   return (
     <>
       <div className='w-full h-full '>
-        <div className=' w-full h-7/12 overflow-hidden rounded-t-2xl border'>
-          {products ? (
-            <img
-              className='w-full h-full '
-              src={products[products.length - 1]?.imageInfo?.imgUrl}
-              alt='product-img'
-            />
-          ) : (
-            <ImImages className='w-40 h-40 mx-auto my-10' />
-          )}
+        <div className=' w-full h-7/12 overflow-hidden rounded-t-2xl '>
+          <img className='w-full h-full ' src={img} alt='product-img' />
         </div>
         <div className='flex flex-col gap-2 justify-evenly h-5/12 bg-white rounded-b-2xl px-2 pb-3'>
-          <h1 className='text-xl  text-Deep-Navy-Blue font-bold'>
-            {title ? title : "Title for the product"}
+          <h1 className='text-xl truncate text-Deep-Navy-Blue font-bold'>
+            {title}
           </h1>
-          <p className='text-sm font-semibold text-gray-400'>
-            {subCategory ? subCategory : "T-shirt, Sweatshirt, Shirt...."}
-          </p>
+          <p className='text-sm font-semibold text-gray-400'>{subCategory}</p>
           <div className='overflow-hidden'>
             <p className='text-xs font-semibold text-gray-400'>
-              {description
-                ? description.split(50)
-                : "write your product material,benefit and Category"}
+              {description.slice(0, 100)} <small>...more</small>
             </p>
           </div>
           <div className='font-semibold'>
-            <span className='pr-4 line-through text-gray-400'>
-              ₹{price ? price : "1000"}
-            </span>
-            <span className='text-Deep-Navy-Blue'>
-              ₹{salePrice ? salePrice : "500"}
-            </span>
+            <span className='pr-4 line-through text-gray-400'>₹{price}</span>
+            <span className='text-Deep-Navy-Blue'>₹{salePrice}</span>
           </div>
 
           <div className='flex justify-between'>

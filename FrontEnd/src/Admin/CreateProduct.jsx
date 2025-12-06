@@ -2,8 +2,8 @@ import { useForm } from "react-hook-form";
 import InputFiled from "../Components/InputFiled";
 import { asyncCreateProduct } from "../Store/Actions/productAction";
 import { useDispatch } from "react-redux";
-import ProductCard from "../Components/ProductCard";
 import { createFormData } from "../utils/createFormData";
+import CreateProductCard from "../Components/createProductCard";
 
 export default function CreateProduct() {
   const dispatch = useDispatch();
@@ -12,6 +12,7 @@ export default function CreateProduct() {
     handleSubmit,
     formState: { errors },
     watch,
+    reset,
   } = useForm();
 
   const inputClass = (errors) => {
@@ -28,8 +29,8 @@ export default function CreateProduct() {
   return (
     <>
       <section className='pt-20 pb-5 lg:h-[120vh] h-[150vh] lg:px-20 lg:gap-10 flex flex-col lg:flex lg:flex-row  text-white '>
-        <div className='lg:h-[80vh] w-9/12 mx-auto   h-[55vh]   lg:w-4/12  '>
-          <ProductCard
+        <div className='lg:h-[80vh] w-9/12 mx-auto   h-[55vh]   lg:w-3/12  '>
+          <CreateProductCard
             title={watch("title")}
             subCategory={watch("subCategory")}
             price={watch("price")}
@@ -274,9 +275,15 @@ export default function CreateProduct() {
               )}
             </div>
 
-            <div className=' mx-auto w-1/2'>
-              <button className='bg-Bright-Orange w-full px-4 py-2  rounded '>
+            <div className='flex gap-2 mx-auto w-full'>
+              <button className='bg-Bright-Orange w-1/2 px-4 py-2  rounded '>
                 Submit
+              </button>
+              <button
+                type='button'
+                onClick={() => reset()}
+                className='bg-Deep-Navy-Blue w-1/2 px-4 py-2  rounded '>
+                Reset
               </button>
             </div>
           </form>

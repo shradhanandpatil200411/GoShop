@@ -4,6 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import AuthRoute from "./AuthRoute";
 import AdminAuthRoute from "./AdminAuthRoute";
 import CreateProduct from "../Admin/CreateProduct";
+import ProductDetails from "../Pages/ProductDetails";
 
 function MainRoutes() {
   return (
@@ -12,6 +13,7 @@ function MainRoutes() {
         <Route path='/' element={<AuthenticationPage />} />
         <Route element={<AuthRoute />}>
           <Route path='/home' element={<Home />} />
+          <Route path='/product-detail/:id' element={<ProductDetails />} />
         </Route>
         <Route element={<AdminAuthRoute />}>
           <Route path='/create-product' element={<CreateProduct />} />
