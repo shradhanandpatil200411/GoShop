@@ -1,3 +1,5 @@
+import { IoMdPhotos } from "react-icons/io";
+
 export default function ProductCard({
   title,
   subCategory,
@@ -10,7 +12,11 @@ export default function ProductCard({
     <>
       <div className='w-full h-full '>
         <div className=' w-full h-7/12 overflow-hidden rounded-t-2xl '>
-          <img className='w-full h-full ' src={img} alt='product-img' />
+          {img ? (
+            <img className='w-full h-full ' src={img} alt='product-img' />
+          ) : (
+            <IoMdPhotos className='w-full h-full' />
+          )}
         </div>
         <div className='flex flex-col gap-2 justify-evenly h-5/12 bg-white rounded-b-2xl px-2 pb-3'>
           <h1 className='text-xl truncate text-Deep-Navy-Blue font-bold'>

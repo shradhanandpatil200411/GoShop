@@ -1,5 +1,3 @@
-import React from "react";
-
 const StoreLogo = () => {
   return (
     <div className='flex items-center gap-2 select-none cursor-pointer group'>

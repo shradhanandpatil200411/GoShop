@@ -71,11 +71,11 @@ export default function CreateProduct() {
                   htmlFor='img'
                   className='text-sm py-2 px-4 rounded cursor-pointer font-semibold h-10  border-none'
                   style={
-                    watch("img")?.length == 0
-                      ? { backgroundColor: "#FF9F1C" }
-                      : { backgroundColor: "#32e854" }
+                    watch("img")?.length > 0
+                      ? { backgroundColor: "#32e854" }
+                      : { backgroundColor: "#FF9F1C" }
                   }>
-                  {watch("img")?.length == 0 ? "Upload" : "Done"}
+                  {watch("img")?.length > 0 ? "Done" : "Upload"}
                 </label>
               </div>
             </div>
@@ -276,13 +276,16 @@ export default function CreateProduct() {
             </div>
 
             <div className='flex gap-2 mx-auto w-full'>
-              <button className='bg-Bright-Orange w-1/2 px-4 py-2  rounded '>
+              <button className='bg-Bright-Orange w-1/2 px-4 py-2  rounded cursor-pointer '>
                 Submit
               </button>
               <button
                 type='button'
-                onClick={() => reset()}
-                className='bg-Deep-Navy-Blue w-1/2 px-4 py-2  rounded '>
+                onClick={() => {
+                  reset();
+                  console.log(watch("img"));
+                }}
+                className='bg-Deep-Navy-Blue w-1/2 px-4 py-2  rounded cursor-pointer '>
                 Reset
               </button>
             </div>
