@@ -12,20 +12,20 @@ const productRoute = express.Router();
 
 const upload = multer({ storage: multer.memoryStorage() });
 
+productRoute.get("/", authMiddleware, getAllProductController);
+
 productRoute.post(
   "/admin/create",
   authMiddleware,
   upload.single("image"),
   uploadImgMiddleware,
-  createProductController
+  createProductController,
 );
-
-productRoute.get("/", authMiddleware, getAllProductController);
 
 productRoute.get(
   "/product-details/:id",
   authMiddleware,
-  productDetailsController
+  productDetailsController,
 );
 
 module.exports = productRoute;

@@ -9,7 +9,8 @@ const authMiddleware = async (req, res, next) => {
     }
     const { id } = jwt.verify(token, process.env.JWT_SECRET);
     const user = await userModel.findById(id);
-    if (!user.isAdmin) {
+
+    if (!user) {
       return res.status(401).json({ message: "Access Denied" });
     }
     req.user = user;

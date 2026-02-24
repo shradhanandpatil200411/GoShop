@@ -64,7 +64,7 @@ function AuthenticationPage() {
         stagger: 0.1,
       });
     },
-    { revertOnUpdate: true }
+    { revertOnUpdate: true },
   );
 
   const handelLogin = contextSafe(() => {
@@ -104,9 +104,9 @@ function AuthenticationPage() {
   const getInputClass = (error) => {
     return ` w-full outline-none rounded-lg px-3 lg:h-10 lg:py-2 py-3 bg-white border-2 transition-colors duration-200
       ${
-        error
-          ? "border-red-500 focus:border-red-500"
-          : "border-gray-200 focus:border-[#FF9F1C]"
+        error ?
+          "border-red-500 focus:border-red-500"
+        : "border-gray-200 focus:border-[#FF9F1C]"
       }`;
   };
 
@@ -131,9 +131,9 @@ function AuthenticationPage() {
             {isLogin ? "Welcome Back!" : "Get Started"}
           </h1>
           <p ref={paraRef} className='text-lg font-light text-gray-300'>
-            {isLogin
-              ? "Sign in to continue to your account."
-              : "Join us and start shopping today."}
+            {isLogin ?
+              "Sign in to continue to your account."
+            : "Join us and start shopping today."}
           </p>
         </div>
 
@@ -218,7 +218,7 @@ function AuthenticationPage() {
             </div>
 
             {/* Submit Button */}
-            <button className='mt-6 lg:mt-2 lg:py-2 bg-Bright-Orange active:scale-95 transition-transform text-white font-bold text-lg rounded-xl py-3 w-full shadow-lg shadow-orange-200 input'>
+            <button className='mt-6 lg:mt-2 lg:py-2 bg-Bright-Orange active:scale-95 transition-transform text-white font-bold text-lg rounded-xl py-3 w-full shadow-lg shadow-orange-200 input cursor-pointer'>
               {isLogin ? "Sign In" : "Sign Up"}
             </button>
 
@@ -226,8 +226,8 @@ function AuthenticationPage() {
             <div className='mt-4 lg:mt-2 flex justify-center gap-2 text-gray-600 font-medium input'>
               <p>{isLogin ? "New here?" : "Already have an account?"}</p>
               <button
-                type='button' // Important: Prevent form submit
-                className='text-Deep-Navy-Blue font-bold hover:underline'
+                type='button'
+                className='text-Deep-Navy-Blue font-bold hover:underline cursor-pointer'
                 onClick={handelLogin}>
                 {isLogin ? "Create Account" : "Login"}
               </button>
