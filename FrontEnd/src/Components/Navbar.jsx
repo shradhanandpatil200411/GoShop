@@ -62,8 +62,11 @@ function Navbar() {
                 </div>
               </>
             )}
-            <NavLink to='/profile'>
+            <NavLink to='/profile' className='flex items-center'>
               <CgProfile className='text-5xl text-Bright-Orange pr-4 invisible lg:visible' />
+              <h1 className='text-xl font-semibold text-white'>
+                {data?.fullName?.firstName}
+              </h1>
             </NavLink>
           </>
         )}

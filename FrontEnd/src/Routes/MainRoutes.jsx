@@ -5,6 +5,7 @@ import AuthRoute from "./AuthRoute";
 import AdminAuthRoute from "./AdminAuthRoute";
 import CreateProduct from "../Admin/CreateProduct";
 import ProductDetails from "../Pages/ProductDetails";
+import Profile from "../Pages/Profile";
 
 function MainRoutes() {
   return (
@@ -18,6 +19,7 @@ function MainRoutes() {
         <Route element={<AdminAuthRoute />}>
           <Route path='/create-product' element={<CreateProduct />} />
         </Route>
+        <Route path='/profile' element={<Profile />} />
       </Routes>
     </>
   );
