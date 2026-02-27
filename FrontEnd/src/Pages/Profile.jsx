@@ -2,8 +2,12 @@ import { CgProfile } from "react-icons/cg";
 import { useDispatch, useSelector } from "react-redux";
 import { asyncLogOutUserAction } from "../Store/Actions/userActions";
 import { useNavigate } from "react-router";
+import MyOrder from "../Components/MyOrder";
+import { useState } from "react";
+import EditProfile from "../Components/EditProfile";
 
 function Profile() {
+  const [toggleTab, setToggleTab] = useState(1);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((store) => store.user?.data);
@@ -26,11 +30,15 @@ function Profile() {
 
             <h1>{user?.email}</h1>
           </div>
-          <div className='border px-4 py-2 text-sm cursor-pointer'>
+          <div
+            onClick={() => setToggleTab(1)}
+            className='border px-4 py-2 text-sm cursor-pointer'>
             <h1>My Order</h1>
           </div>
 
-          <div className='border px-4 py-2 text-sm cursor-pointer'>
+          <div
+            onClick={() => setToggleTab(0)}
+            className='border px-4 py-2 text-sm cursor-pointer'>
             <h1>Edit Profile</h1>
           </div>
 
@@ -41,7 +49,9 @@ function Profile() {
           </button>
         </div>
         <div className='border w-[70%] p-10'>
-          <h1 className='font-bold text-2xl'>My Order</h1>
+          {toggleTab ?
+            <MyOrder />
+          : <EditProfile />}
         </div>
       </div>
     </>
