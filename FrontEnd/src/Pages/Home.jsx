@@ -3,6 +3,7 @@ import ProductCard from "../Components/ProductCard";
 import { useDispatch, useSelector } from "react-redux";
 import { asyncGetAllProducts } from "../Store/Actions/productAction";
 import { NavLink } from "react-router";
+import MainBanner from "../Components/MainBanner";
 
 function Home() {
   const dispatch = useDispatch();
@@ -15,6 +16,12 @@ function Home() {
     <>
       <div className='w-full  pt-20 '>
         <div className='w-full  '>
+          <div>
+            <MainBanner />
+          </div>
+          <h1 className='my-10 text-white text-2xl font-bold px-4'>
+            Recommend for you
+          </h1>
           <div className=' flex flex-wrap gap-10 justify-center'>
             {products.map((p) => {
               const { title, description, subCategory, price, salePrice } =

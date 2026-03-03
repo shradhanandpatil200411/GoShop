@@ -10,8 +10,6 @@ function EditProfile() {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
-    clearErrors,
   } = useForm({
     defaultValues: {
       email: user?.data?.email,
