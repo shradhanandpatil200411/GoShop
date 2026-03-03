@@ -7,7 +7,7 @@ import { useState } from "react";
 import EditProfile from "../Components/EditProfile";
 
 function Profile() {
-  const [toggleTab, setToggleTab] = useState(1);
+  const [toggleTab, setToggleTab] = useState(0);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((store) => store.user?.data);
@@ -18,7 +18,7 @@ function Profile() {
   return (
     <>
       <div className='pt-20 text-white h-screen p-10 flex gap-10'>
-        <div className='border w-[30%] p-5 flex justify-between flex-col'>
+        <div className='border border-gray-400 w-[30%] p-5 flex justify-between flex-col'>
           <div className='bg-Deep-Navy-Blue p-5'>
             <div>
               <CgProfile className='size-14 cursor-pointer' />
@@ -48,7 +48,7 @@ function Profile() {
             LogOut
           </button>
         </div>
-        <div className='border w-[70%] p-10'>
+        <div className=' w-[70%] '>
           {toggleTab ?
             <MyOrder />
           : <EditProfile />}
