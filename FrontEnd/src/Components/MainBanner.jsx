@@ -25,7 +25,7 @@ function MainBanner() {
     <>
       <Carousel
         responsive={responsive}
-        swipeable={true}
+        swipeAble={true}
         draggable={false}
         showDots={true}
         ssr={true} // means to render carousel on server-side.

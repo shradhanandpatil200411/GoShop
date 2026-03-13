@@ -3,7 +3,7 @@ import InputFiled from "../Components/InputFiled";
 import { asyncCreateProduct } from "../Store/Actions/productAction";
 import { useDispatch } from "react-redux";
 import { createFormData } from "../utils/createFormData";
-import CreateProductCard from "../Components/createProductCard";
+import CreateProductCard from "../Components/CreateProductCard";
 
 export default function CreateProduct() {
   const dispatch = useDispatch();
@@ -16,9 +16,8 @@ export default function CreateProduct() {
   } = useForm();
 
   const inputClass = (errors) => {
-    return `outline-none px-2 text-lg py-1  w-full rounded-lg focus-within:border-Bright-Orange ${
-      errors ? "border-red-400 border-2" : "border-2"
-    }`;
+    return `outline-none px-2 text-lg py-1  w-full rounded-lg focus-within:border-Bright-Orange ${errors ? "border-red-400 border-2" : "border-2"
+      }`;
   };
 
   const submitHandler = (productData) => {

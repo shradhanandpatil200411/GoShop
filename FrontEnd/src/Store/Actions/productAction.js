@@ -27,11 +27,3 @@ export const asyncCreateProduct = (productData) => async (dispatch) => {
   }
 };
 
-export const asyncGetAllProducts = () => async (dispatch) => {
-  try {
-    const { data } = await axios.get("/product");
-    dispatch(addProduct(data?.data?.getAllProducts));
-  } catch (err) {
-    toast.error(err.message);
-  }
-};
