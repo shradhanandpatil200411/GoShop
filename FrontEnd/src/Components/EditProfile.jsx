@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 
 function EditProfile() {
   const user = useSelector((store) => store?.user);
-  console.log(user.data.email);
 
   const {
     register,
@@ -19,6 +18,7 @@ function EditProfile() {
       gender: "",
       dob: "",
       address: "",
+      number: "",
     },
   });
 
@@ -126,8 +126,6 @@ function EditProfile() {
                 isRequire='please add data of birth'
                 errors={errors.dob}
                 inputType='date'
-                minLength=''
-                maxLength=''
               />
             </div>
             <div className='my-2'>
@@ -136,7 +134,7 @@ function EditProfile() {
                 register={register}
                 name='number'
                 isRequire='Mobile number is require'
-                errors={errors.lastName}
+                errors={errors.number}
                 inputType='number'
                 minLength='10'
                 maxLength='10'

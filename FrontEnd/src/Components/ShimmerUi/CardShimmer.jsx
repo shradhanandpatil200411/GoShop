@@ -1,38 +1,22 @@
-import React from 'react'
+import React from "react";
 
 function CardShimmer() {
-    return (
-        <>
-            <div className='w-full h-screen gap-20 flex flex-wrap  '>
-                <div className=' w-[20%] bg-gray-400 h-[80%] gap-10 p-4'>
-                    <div className='w-full h-8/12  bg-gray-500 rounded-2xl'>
-
-                    </div>
-
-                </div>
-                <div className=' w-[20%] bg-gray-400 h-[80%] gap-10 p-4'>
-                    <div className='w-full h-8/12  bg-gray-500 rounded-2xl'>
-
-                    </div>
-
-                </div>
-                <div className=' w-[20%] bg-gray-400 h-[80%] gap-10 p-4'>
-                    <div className='w-full h-8/12  bg-gray-500 rounded-2xl'>
-
-                    </div>
-
-                </div>
-                <div className=' w-[20%] bg-gray-400 h-[80%] gap-10 p-4'>
-                    <div className='w-full h-8/12  bg-gray-500 rounded-2xl'>
-
-                    </div>
-
-                </div>
-
-
-            </div>
-        </>
-    )
+  return (
+    <>
+      <div className='h-[90vh] w-[20%] bg-gray-500 p-2'>
+        <div className=' w-full bg-gray-700 h-1/2'></div>
+        <div>
+          <div className='w-full h-10 mt-2  bg-gray-700'></div>
+          <div className='w-1/2 h-5 mt-2  bg-gray-700'></div>
+          <div className='w-8/12 h-20 mt-2  bg-gray-700'></div>
+        </div>
+        <div className='flex mx-4 w-full'>
+          <div className='w-20 bg-gray-700 '></div>
+          <div className='w-20 bg-gray-700 '></div>
+        </div>
+      </div>
+    </>
+  );
 }
 
-export default CardShimmer
+export default CardShimmer;
