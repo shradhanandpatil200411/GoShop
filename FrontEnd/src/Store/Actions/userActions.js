@@ -1,6 +1,10 @@
 import { toast } from "react-toastify";
 import axios from "../../API/axios";
-import { loginAction, logOutAction } from "../Reducer/userSlice";
+import {
+  loginAction,
+  logOutAction,
+  updateUserAction,
+} from "../Reducer/userSlice";
 
 export const asyncCurrentUserAction = (navigate) => async (dispatch) => {
   try {
@@ -41,4 +45,15 @@ export const asyncLogOutUserAction = (navigate) => async (dispatch) => {
   dispatch(logOutAction());
   toast.success(data);
   navigate("/");
+};
+
+export const asyncUpdateUserAction = (inputData) => async (dispatch) => {
+  try {
+    const data = await axios.patch("/auth/update", inputData);
+    toast.success(data.data.message);
+    dispatch(updateUserAction(data.data.user));
+  } catch (err) {
+    console.log(err);
+    toast.error(err.message);
+  }
 };

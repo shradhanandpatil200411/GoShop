@@ -1,9 +1,13 @@
 import { useForm } from "react-hook-form";
 import InputFiled from "./InputFiled";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { asyncUpdateUserAction } from "../Store/Actions/userActions";
 
 function EditProfile() {
-  const user = useSelector((store) => store?.user);
+  const user = useSelector((store) => store.user);
+  console.log("call");
+
+  const dispatch = useDispatch();
 
   const {
     register,
@@ -15,15 +19,23 @@ function EditProfile() {
       password: "00000000",
       firstName: user?.data?.fullName?.firstName,
       lastName: user?.data?.fullName?.lastName,
-      gender: "",
-      dob: "",
-      address: "",
-      number: "",
+      gender: user?.data?.gender,
+      dob: user?.data?.dataOfBirth,
+      address: user?.data?.address,
+      number: user?.data?.mobileNumber,
     },
   });
 
-  const submitHandler = (e) => {
-    e.preventDefault;
+  const submitHandler = (data) => {
+    dispatch(
+      asyncUpdateUserAction({
+        fullName: { firstName: data.firstName, lastName: data.lastName },
+        gender: data.gender,
+        dataOfBirth: data.dob,
+        mobileNumber: data.number,
+        address: data.address,
+      }),
+    );
   };
   return (
     <>
@@ -93,16 +105,23 @@ function EditProfile() {
               />
             </div>
             <div className='mt-2  gap-2'>
-              <label className='text-xl' htmlFor='Gender'>
+              <label className='text-xl' htmlFor='gender'>
                 Gender
               </label>
               <div className='flex my-2 gap-10'>
                 <div>
-                  <input type='radio' name='gender' id='male' value='male' />
+                  <input
+                    {...register("gender")}
+                    type='radio'
+                    name='gender'
+                    id='male'
+                    value='male'
+                  />
                   <label htmlFor='male'>Male</label>
                 </div>
                 <div>
                   <input
+                    {...register("gender")}
                     type='radio'
                     name='gender'
                     id='female'
@@ -111,7 +130,13 @@ function EditProfile() {
                   <label htmlFor='female'>Female</label>
                 </div>
                 <div>
-                  <input type='radio' name='gender' id='other' value='other' />
+                  <input
+                    {...register("gender")}
+                    type='radio'
+                    name='gender'
+                    id='other'
+                    value='other'
+                  />
                   <label htmlFor='other'>Other</label>
                 </div>
               </div>

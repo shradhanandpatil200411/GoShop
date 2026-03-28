@@ -32,17 +32,13 @@ const userSchema = new mongoose.Schema({
     type: String,
   },
   dataOfBirth: {
-    type: Date,
+    type: String,
   },
   mobileNumber: {
     type: Number,
-    maxLength: 10,
-    minLength: 10,
   },
   address: {
     type: String,
-    maxLength: 500,
-    minLength: 10,
   },
   isAdmin: {
     type: Boolean,

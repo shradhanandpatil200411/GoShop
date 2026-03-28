@@ -40,6 +40,10 @@ async function registerController(req, res) {
       email,
       password: hashPassword,
       isAdmin: false,
+      gender: "",
+      dataOfBirth: "",
+      mobileNumber: "",
+      address: "",
     });
     res.status(201).json({ message: "User Register Successfully", user });
   } catch (err) {
@@ -83,9 +87,37 @@ async function logOutController(req, res) {
   res.send("user logout successfully");
 }
 
+async function updateUserController(req, res) {
+  try {
+    const {
+      fullName: { firstName, lastName },
+      gender,
+      dataOfBirth,
+      mobileNumber,
+      address,
+    } = req.body;
+    let user = req.user;
+    await userModel.findByIdAndUpdate(user._id, {
+      fullName: {
+        firstName,
+        lastName,
+      },
+      gender,
+      dataOfBirth,
+      mobileNumber,
+      address,
+    });
+
+    res.status(201).json({ message: "User is updated successfully", user });
+  } catch (err) {
+    res.status(500).jason({ message: "Something wont wrong", error: err });
+  }
+}
+
 module.exports = {
   registerController,
   loginController,
   currentUserController,
   logOutController,
+  updateUserController,
 };
