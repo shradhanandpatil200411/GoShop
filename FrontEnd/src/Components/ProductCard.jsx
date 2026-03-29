@@ -12,11 +12,9 @@ export default function ProductCard({
     <>
       <div className='w-full h-full '>
         <div className=' w-full h-7/12 overflow-hidden rounded-t-2xl '>
-          {img ? (
+          {img ?
             <img className='w-full h-full ' src={img} alt='product-img' />
-          ) : (
-            <IoMdPhotos className='w-full h-full' />
-          )}
+          : <IoMdPhotos className='w-full h-full' />}
         </div>
         <div className='flex flex-col gap-2 justify-evenly h-5/12 bg-white rounded-b-2xl px-2 pb-3'>
           <h1 className='text-xl truncate text-Deep-Navy-Blue font-bold'>
@@ -33,14 +31,14 @@ export default function ProductCard({
             <span className='text-Deep-Navy-Blue'>₹{salePrice}</span>
           </div>
 
-          <div className='flex justify-between'>
+          {/* <div className='flex justify-between'>
             <button className='cursor-pointer px-4 py-2 border-Deep-Navy-Blue border text-black  rounded-lg font-semibold text-sm '>
               Add To Cart
             </button>
             <button className='cursor-pointer px-4 py-2 bg-Bright-Orange rounded-lg font-semibold text-sm text-white'>
               Buy Now
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

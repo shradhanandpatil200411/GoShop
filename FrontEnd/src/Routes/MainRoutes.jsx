@@ -1,26 +1,26 @@
-import Home from "../Pages/Home";
-import AuthenticationPage from "../Pages/AuthenticationPage";
-import { Route, Routes } from "react-router-dom";
-import AuthRoute from "./AuthRoute";
-import AdminAuthRoute from "./AdminAuthRoute";
-import CreateProduct from "../Admin/CreateProduct";
-import ProductDetails from "../Pages/ProductDetails";
-import Profile from "../Pages/Profile";
+import { Outlet, useNavigate } from "react-router-dom";
+
+import { useEffect } from "react";
+import { asyncCurrentUserAction } from "../Store/Actions/userActions";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { SplitText } from "gsap/all";
+import { useDispatch } from "react-redux";
+import Navbar from "../Components/Navbar";
+import { ToastContainer } from "react-toastify";
 
 function MainRoutes() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  gsap.registerPlugin(SplitText, useGSAP);
+  useEffect(() => {
+    dispatch(asyncCurrentUserAction(navigate));
+  }, []);
   return (
     <>
-      <Routes>
-        <Route path='/' element={<AuthenticationPage />} />
-        <Route element={<AuthRoute />}>
-          <Route path='/home' element={<Home />} />
-          <Route path='/product-detail/:id' element={<ProductDetails />} />
-        </Route>
-        <Route element={<AdminAuthRoute />}>
-          <Route path='/create-product' element={<CreateProduct />} />
-        </Route>
-        <Route path='/profile' element={<Profile />} />
-      </Routes>
+      <Navbar />
+      <Outlet />
+      <ToastContainer />
     </>
   );
 }

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import ProductCard from "../Components/ProductCard";
 import { NavLink } from "react-router";
-import MainBanner from "../Components/MainBanner";
 import CardShimmer from "../Components/ShimmerUi/CardShimmer";
 import axios from "../API/axios";
 import { toast } from "react-toastify";

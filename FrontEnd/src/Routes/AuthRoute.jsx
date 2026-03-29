@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
 
-function AuthRoute() {
+function AuthRoute({ children }) {
   const { data, isLoading } = useSelector((store) => store.user);
 
   if (isLoading) {
@@ -24,11 +24,7 @@ function AuthRoute() {
     return <Navigate to='/' state={{ from: location }} replace />;
   }
 
-  return (
-    <>
-      <Outlet />
-    </>
-  );
+  return children;
 }
 
 export default AuthRoute;

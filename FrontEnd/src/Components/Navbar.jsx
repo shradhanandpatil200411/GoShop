@@ -5,7 +5,7 @@ import { RxCross2 } from "react-icons/rx";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import Nav from "./Nav";
-import { NavLink } from "react-router";
+import { NavLink } from "react-router-dom";
 
 function Navbar() {
   const { isAuthenticated, data } = useSelector((store) => store.user);

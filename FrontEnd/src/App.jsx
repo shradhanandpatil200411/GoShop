@@ -1,26 +1,61 @@
-import Navbar from "./Components/Navbar";
-import { ToastContainer } from "react-toastify";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MainRoutes from "./Routes/MainRoutes";
-import { useEffect } from "react";
-import { asyncCurrentUserAction } from "./Store/Actions/userActions";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router";
-import gsap from "gsap";
-import { SplitText } from "gsap/all";
-import { useGSAP } from "@gsap/react";
+import AuthenticationPage from "./Pages/AuthenticationPage";
+import AuthRoute from "./Routes/AuthRoute";
+import Home from "./Pages/Home";
+import ProductDetails from "./Pages/ProductDetails";
+import AdminAuthRoute from "./Routes/AdminAuthRoute";
+import CreateProduct from "./Admin/CreateProduct";
+import Profile from "./Pages/Profile";
+
+const roots = createBrowserRouter([
+  {
+    element: <MainRoutes />,
+    children: [
+      {
+        path: "/",
+        element: <AuthenticationPage />,
+      },
+      {
+        path: "/home",
+        element: (
+          <AuthRoute>
+            <Home />
+          </AuthRoute>
+        ),
+      },
+      {
+        path: "/product-detail/:id",
+        element: (
+          <AuthRoute>
+            <ProductDetails />
+          </AuthRoute>
+        ),
+      },
+      {
+        path: "/create-product",
+        element: (
+          <AdminAuthRoute>
+            <CreateProduct />
+          </AdminAuthRoute>
+        ),
+      },
+      {
+        path: "/profile",
+        element: (
+          <AuthRoute>
+            <Profile />
+          </AuthRoute>
+        ),
+      },
+    ],
+  },
+]);
 
 function App() {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  gsap.registerPlugin(SplitText, useGSAP);
-  useEffect(() => {
-    dispatch(asyncCurrentUserAction(navigate));
-  }, []);
   return (
     <div className='w-screen h-full bg-linear-to-r from-Deep-Navy-Blue to-cyan-800 '>
-      <Navbar />
-      <MainRoutes />
-      <ToastContainer />
+      <RouterProvider router={roots} />
     </div>
   );
 }

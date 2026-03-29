@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
 
-export default function AdminAuthRoute() {
+export default function AdminAuthRoute({ children }) {
   const { data, isLoading } = useSelector((store) => store.user);
 
   if (isLoading) {
@@ -16,5 +16,5 @@ export default function AdminAuthRoute() {
     return <Navigate to='/home' />;
   }
 
-  return <Outlet />;
+  return children;
 }
