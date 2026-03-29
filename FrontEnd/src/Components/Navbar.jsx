@@ -13,6 +13,8 @@ function Navbar() {
   const [menu, setMenu] = useState(false);
   const navList = ["home", "men", "women", "kid"];
 
+  const { cart } = useSelector((store) => store.product);
+
   return (
     <>
       <nav className='flex  justify-between lg:justify-evenly items-center  bg-Deep-Navy-Blue/10 lg:bg-transparent  fixed backdrop-blur-2xl w-full z-50'>
@@ -65,8 +67,13 @@ function Navbar() {
                 </div>
               </>
             )}
-            <NavLink to={"/profile"}>
-              <FaCartArrowDown className='text-2xl mx-2 text-white transition-all duration-300 ease-out hover:text-Bright-Orange cursor-pointer ' />
+            <NavLink className='relative' to={"/profile"}>
+              <FaCartArrowDown
+                className={`text-2xl mx-2 text-white transition-all duration-300 ease-out hover:text-Bright-Orange cursor-pointer`}
+              />
+              <div className='absolute -top-3 right-0 text-Bright-Orange font-semibold text-lg'>
+                {cart.length > 0 ? cart.length : ""}
+              </div>
             </NavLink>
             <NavLink to='/profile' className='flex items-center'>
               <CgProfile className='text-5xl text-Bright-Orange pr-4 invisible lg:visible' />

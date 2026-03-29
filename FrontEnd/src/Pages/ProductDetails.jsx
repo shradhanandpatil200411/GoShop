@@ -5,13 +5,20 @@ import { toast } from "react-toastify";
 import { FaFacebook, FaHeart } from "react-icons/fa";
 import { FaWhatsapp } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
-import { CiFacebook } from "react-icons/ci";
 import { CiTwitter } from "react-icons/ci";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../Store/Reducer/productSlice";
 
 export default function ProductDetails() {
   const [product, setProduct] = useState(null);
-  const [sizeSelect, setSizeSelect] = useState(null);
+  const [sizeSelect, setSizeSelect] = useState({
+    size: null,
+    isSelect: true,
+  });
+  const [addToCartBtn, setAddToCartBtn] = useState(false);
+  const [quantity, setQuantity] = useState(1);
   const { id } = useParams();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const getProductDetails = async () => {
@@ -29,18 +36,26 @@ export default function ProductDetails() {
 
   if (!product) return <div className='pt-20 text-center'>Loading...</div>;
 
-  const {
-    title,
-    description,
-    price,
-    salePrice,
-    sizes,
-    averageReview,
-    brand,
-    category,
-    colors,
-    subCategory,
-  } = product.productDetails;
+  const { title, description, price, salePrice, sizes, subCategory } =
+    product.productDetails;
+
+  const handelAddCart = () => {
+    if (sizeSelect.size === null) {
+      setSizeSelect((prev) => ({ ...prev, isSelect: false }));
+    } else {
+      setAddToCartBtn(true);
+      dispatch(
+        addToCart({
+          title,
+          salePrice,
+          description,
+          img: product.imageInfo.imgUrl,
+          quantity,
+          size: sizeSelect.size,
+        }),
+      );
+    }
+  };
 
   return (
     <>
@@ -61,7 +76,6 @@ export default function ProductDetails() {
             <span>₹ {salePrice}</span>
           </h1>
           <div>
-            <p className='text-xl font-semibold'>Please select a size.</p>
             <div className='flex gap-10 mt-5'>
               {sizes.map((sizeObj, index) => {
                 const sizeName = Object.keys(sizeObj)[0];
@@ -70,29 +84,32 @@ export default function ProductDetails() {
                   <div
                     key={index}
                     className={`text-lg border-2 text-center font-semibold p-2 w-14 ${
-                      sizeName == sizeSelect
-                        ? "border-Bright-Orange text-Bright-Orange "
-                        : "border-gray-500 "
+                      sizeName == sizeSelect.size ?
+                        "border-Bright-Orange text-Bright-Orange "
+                      : "border-gray-500 "
                     }`}
                     onClick={() => {
                       if (isAvailable) {
-                        setSizeSelect(sizeName);
+                        setSizeSelect({ isSelect: true, size: sizeName });
                       }
                     }}
                     style={
-                      isAvailable
-                        ? { font: "bold", cursor: "pointer" }
-                        : {
-                            color: "grey",
-                            cursor: "not-allowed",
-                            textDecoration: "line-through",
-                          }
+                      isAvailable ?
+                        { font: "bold", cursor: "pointer" }
+                      : {
+                          color: "grey",
+                          cursor: "not-allowed",
+                          textDecoration: "line-through",
+                        }
                     }>
                     <h1 className=' '>{sizeName.toUpperCase()}</h1>
                   </div>
                 );
               })}
             </div>
+            {!sizeSelect.isSelect ?
+              <small className='text-red-500'>Please select the size</small>
+            : ""}
           </div>
           <div className='flex flex-col gap-5'>
             <div>
@@ -102,22 +119,31 @@ export default function ProductDetails() {
               <select
                 id='quantity'
                 className='text-black  bg-white outline-none'>
-                <option value='1'>1</option>
-                <option value='2'>2</option>
-                <option value='3'>3</option>
-                <option value='4'>4</option>
-                <option value='5'>5</option>
-                <option value='6'>6</option>
-                <option value='7'>7</option>
-                <option value='8'>8</option>
-                <option value='9'>9</option>
-                <option value='10'>10</option>
+                {Array(10)
+                  .fill("")
+                  .map((_, i) => {
+                    return (
+                      <option
+                        key={i}
+                        onClick={(e) => setQuantity(e.target.value)}
+                        value={i + 1}>
+                        {i + 1}
+                      </option>
+                    );
+                  })}
               </select>
             </div>
             <div className='flex gap-10 justify-between w-10/12'>
-              <button className='w-1/2 rounded-lg bg-Bright-Orange px-4 py-2 font-semibold cursor-pointer'>
-                ADD TO CARD
-              </button>
+              {addToCartBtn ?
+                <button className='w-1/2 rounded-lg bg-red-500 px-4 py-2 font-semibold cursor-pointer'>
+                  REMOVE FROM CART
+                </button>
+              : <button
+                  onClick={handelAddCart}
+                  className='w-1/2 rounded-lg bg-Bright-Orange px-4 py-2 font-semibold cursor-pointer'>
+                  ADD TO CART
+                </button>
+              }
               <button className='w-1/2 flex items-center justify-center gap-2 rounded-lg border px-4 py-2 font-semibold hover:border-Bright-Orange hover:text-Bright-Orange transition-all ease-in duration-200 cursor-pointer'>
                 <FaHeart /> ADD TO WISHLIST
               </button>

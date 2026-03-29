@@ -7,7 +7,7 @@ import { useState } from "react";
 import EditProfile from "../Components/EditProfile";
 
 function Profile() {
-  const [toggleTab, setToggleTab] = useState(0);
+  const [toggleTab, setToggleTab] = useState(1);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((store) => store.user?.data);
