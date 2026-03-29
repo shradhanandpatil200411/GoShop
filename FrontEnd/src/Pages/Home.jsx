@@ -11,36 +11,32 @@ function Home() {
   const [showShimmer, setShowShimmer] = useState(false);
   const [product, setProduct] = useState([]);
 
-  const fetchProductData = async () => {
-    try {
-      setShowShimmer(true);
-      const { data } = await axios.get("/product");
-      setProduct((prev) => [...prev, ...(data?.data?.getAllProducts || [])]);
-      setShowShimmer(false);
-    } catch (err) {
-      toast.error(err.message);
-    }
-  };
-
-  const handelScroll = () => {
-    if (
-      window.scrollY + window.innerHeight - 13 >=
-      window.document.body.scrollHeight
-    ) {
-      setShowShimmer(true);
-      fetchProductData();
-    }
-  };
+  // const handelScroll = () => {
+  //   if (
+  //     window.scrollY + window.innerHeight - 13 >=
+  //     window.document.body.scrollHeight
+  //   ) {
+  //     setShowShimmer(true);
+  //     fetchProductData();
+  //   }
+  // };
 
   useEffect(() => {
-    const fetchData = async () => {
-      await fetchProductData();
+    const fetchProductData = async () => {
+      try {
+        setShowShimmer(true);
+        const { data } = await axios.get("/product");
+        setProduct(data?.data?.getAllProducts);
+        setShowShimmer(false);
+      } catch (err) {
+        toast.error(err.message);
+      }
     };
-    fetchData();
-    window.addEventListener("scroll", handelScroll);
-    return () => {
-      window.removeEventListener("scroll", handelScroll);
-    };
+    fetchProductData();
+    // window.addEventListener("scroll", handelScroll);
+    // return () => {
+    //   window.removeEventListener("scroll", handelScroll);
+    // };
   }, []);
 
   return (

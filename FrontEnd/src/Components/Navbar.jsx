@@ -5,6 +5,7 @@ import { RxCross2 } from "react-icons/rx";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import Nav from "./Nav";
+import { FaCartArrowDown } from "react-icons/fa6";
 import { NavLink } from "react-router-dom";
 
 function Navbar() {
@@ -55,13 +56,18 @@ function Navbar() {
                       />
                     )}
                   </div>
-                  <RxCross2
-                    onClick={() => setMenu(!menu)}
-                    className='text-5xl text-Bright-Orange cursor-pointer lg:hidden'
-                  />
+                  <div>
+                    <RxCross2
+                      onClick={() => setMenu(!menu)}
+                      className='text-5xl text-Bright-Orange cursor-pointer lg:hidden'
+                    />
+                  </div>
                 </div>
               </>
             )}
+            <NavLink to={"/profile"}>
+              <FaCartArrowDown className='text-2xl mx-2 text-white transition-all duration-300 ease-out hover:text-Bright-Orange cursor-pointer ' />
+            </NavLink>
             <NavLink to='/profile' className='flex items-center'>
               <CgProfile className='text-5xl text-Bright-Orange pr-4 invisible lg:visible' />
               <h1 className='text-xl font-semibold text-white'>

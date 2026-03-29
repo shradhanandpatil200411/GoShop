@@ -26,4 +26,3 @@ export const asyncCreateProduct = (productData) => async (dispatch) => {
     toast.error(err.message);
   }
 };
-
