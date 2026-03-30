@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { updateCart } from "../Store/Reducer/productSlice";
+import { removeFromCart, updateCart } from "../Store/Reducer/productSlice";
 
 function MyOrder() {
   const { cart } = useSelector((store) => store.product);
@@ -12,6 +12,12 @@ function MyOrder() {
   };
 
   const handelDecrement = (i) => {
+    console.log(cart[i].quantity);
+
+    if (cart[i].quantity <= 0) {
+      dispatch(removeFromCart(cart[i].id));
+      return;
+    }
     dispatch(updateCart({ type: "decrementQuantity", index: i }));
   };
 

@@ -3,17 +3,25 @@ import { useDispatch, useSelector } from "react-redux";
 import { asyncLogOutUserAction } from "../Store/Actions/userActions";
 import { useNavigate } from "react-router";
 import MyOrder from "../Components/MyOrder";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import EditProfile from "../Components/EditProfile";
 
 function Profile() {
-  const [toggleTab, setToggleTab] = useState(1);
+  const [toggleTab, setToggleTab] = useState(0);
+  const { cart } = useSelector((store) => store.product);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((store) => store.user?.data);
   const handelLogout = () => {
     dispatch(asyncLogOutUserAction(navigate));
   };
+
+  useEffect(() => {
+    if (cart.length > 0) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setToggleTab(1);
+    }
+  }, []);
 
   return (
     <>
