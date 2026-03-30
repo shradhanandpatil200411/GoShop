@@ -13,8 +13,29 @@ const productSlice = createSlice({
     addToCart: (state, action) => {
       state.cart = [...state.cart, action.payload];
     },
+    removeFromCart: (state, action) => {
+      let filterCart = state.cart.filter((p) => p.id !== action.payload);
+      state.cart = filterCart;
+    },
+    updateCart: (state, action) => {
+      switch (action.payload.type) {
+        case "incrementQuantity":
+          state.cart[action.payload.index].quantity += 1;
+          break;
+        case "decrementQuantity":
+          state.cart[action.payload.index].quantity -= 1;
+          break;
+        case "changeSize":
+          state.cart[action.payload.index].size = action.payload.size;
+          break;
+        default:
+          state.cart;
+          break;
+      }
+    },
   },
 });
 
 export default productSlice.reducer;
-export const { addProduct, addToCart } = productSlice.actions;
+export const { addProduct, addToCart, removeFromCart, updateCart } =
+  productSlice.actions;

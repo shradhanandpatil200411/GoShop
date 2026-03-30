@@ -7,7 +7,7 @@ import { FaWhatsapp } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import { CiTwitter } from "react-icons/ci";
 import { useDispatch } from "react-redux";
-import { addToCart } from "../Store/Reducer/productSlice";
+import { addToCart, removeFromCart } from "../Store/Reducer/productSlice";
 
 export default function ProductDetails() {
   const [product, setProduct] = useState(null);
@@ -51,10 +51,19 @@ export default function ProductDetails() {
           description,
           img: product.imageInfo.imgUrl,
           quantity,
-          size: sizeSelect.size,
+          id,
+          size: { selectSize: sizeSelect.size, allSize: sizes },
         }),
       );
+      toast("Product is added Successfully");
     }
+  };
+
+  const handelRemoveCart = (id) => {
+    toast.error("Product Remove from cart");
+    dispatch(removeFromCart(id));
+    setAddToCartBtn(false);
+    setSizeSelect({ isSelect: true, size: null });
   };
 
   return (
@@ -135,7 +144,9 @@ export default function ProductDetails() {
             </div>
             <div className='flex gap-10 justify-between w-10/12'>
               {addToCartBtn ?
-                <button className='w-1/2 rounded-lg bg-red-500 px-4 py-2 font-semibold cursor-pointer'>
+                <button
+                  onClick={() => handelRemoveCart(id)}
+                  className='w-1/2 rounded-lg bg-red-500 px-4 py-2 font-semibold cursor-pointer'>
                   REMOVE FROM CART
                 </button>
               : <button
