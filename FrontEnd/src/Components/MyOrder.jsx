@@ -7,18 +7,16 @@ function MyOrder() {
 
   const dispatch = useDispatch();
 
-  const handelIncrement = (i) => {
-    dispatch(updateCart({ type: "incrementQuantity", index: i }));
+  const handelIncrement = (id) => {
+    dispatch(updateCart({ type: "incrementQuantity", id: id }));
   };
 
-  const handelDecrement = (i) => {
-    console.log(cart[i].quantity);
-
+  const handelDecrement = (id, i) => {
     if (cart[i].quantity <= 0) {
-      dispatch(removeFromCart(cart[i].id));
+      dispatch(removeFromCart(id));
       return;
     }
-    dispatch(updateCart({ type: "decrementQuantity", index: i }));
+    dispatch(updateCart({ type: "decrementQuantity", id: id }));
   };
 
   return (
@@ -35,44 +33,49 @@ function MyOrder() {
           </NavLink>
         </div>
       : <div className='overflow-y-scroll h-11/12 scroll-smooth'>
-          {cart?.map((p, i) => (
-            <div
-              key={p.id}
-              className='flex gap-4 bg-cyan-800 my-4 shadow-2xl p-4'>
-              <div className='w-3/12 h-60'>
-                <img
-                  className='bg-cover w-full h-full'
-                  src={p.img}
-                  alt={p.title}
-                />
-              </div>
-              <div className='w-6/12'>
-                <h2 className='font-bold text-2xl '>{p.title}</h2>
-                <p className='text-gray-300'>
-                  {p.description.slice(0, 140)}...
-                </p>
-                <div className=' font-bold text-lg'>
-                  <div>
-                    Size :{" "}
-                    <span className='uppercase'>{p.size.selectSize}</span>
-                  </div>
-                  <div className='flex gap-3 '>
-                    <button
-                      className='cursor-pointer text-xl '
-                      onClick={() => handelIncrement(i)}>
-                      +
-                    </button>
-                    {p.quantity}
-                    <button
-                      className='cursor-pointer text-xl '
-                      onClick={() => handelDecrement(i)}>
-                      -
-                    </button>
+          {cart?.map((p, i) => {
+            const { imageInfo, productDetails, _id } = p.product;
+            return (
+              <div
+                key={p.id}
+                className='flex gap-4 bg-cyan-800 my-4 shadow-2xl p-4'>
+                <div className='w-3/12 h-60'>
+                  <img
+                    className='bg-cover w-full h-full'
+                    src={imageInfo.imgUrl}
+                    alt={productDetails.title}
+                  />
+                </div>
+                <div className='w-6/12'>
+                  <h2 className='font-bold text-2xl '>
+                    {productDetails.title}
+                  </h2>
+                  <p className='text-gray-300'>
+                    {productDetails.description.slice(0, 140)}...
+                  </p>
+                  <div className=' font-bold text-lg'>
+                    <div>
+                      Size :{" "}
+                      <span className='uppercase'>{p.size.selectSize}</span>
+                    </div>
+                    <div className='flex gap-3 '>
+                      <button
+                        className='cursor-pointer text-xl '
+                        onClick={() => handelIncrement(_id)}>
+                        +
+                      </button>
+                      {p.quantity}
+                      <button
+                        className='cursor-pointer text-xl '
+                        onClick={() => handelDecrement(_id, i)}>
+                        -
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       }
     </div>

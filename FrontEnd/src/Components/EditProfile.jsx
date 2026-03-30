@@ -5,7 +5,6 @@ import { asyncUpdateUserAction } from "../Store/Actions/userActions";
 
 function EditProfile() {
   const user = useSelector((store) => store.user);
-  console.log("call");
 
   const dispatch = useDispatch();
 

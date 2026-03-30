@@ -19,11 +19,22 @@ const productSlice = createSlice({
     },
     updateCart: (state, action) => {
       switch (action.payload.type) {
-        case "incrementQuantity":
-          state.cart[action.payload.index].quantity += 1;
+        case "incrementQuantity": {
+          let filterCart = state.cart.filter(
+            (c) => c.product.productDetails._id === action.payload._id,
+          );
+          if (filterCart.length > 0) {
+            filterCart[0].quantity += 1;
+          }
           break;
+        }
         case "decrementQuantity":
-          state.cart[action.payload.index].quantity -= 1;
+          {
+            let filterCart = state.cart.filter(
+              (c) => c.product.productDetails._id === action.payload._id,
+            );
+            filterCart[0].quantity -= 1;
+          }
           break;
         case "changeSize":
           state.cart[action.payload.index].size = action.payload.size;

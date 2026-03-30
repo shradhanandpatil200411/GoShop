@@ -44,17 +44,12 @@ export default function ProductDetails() {
       setSizeSelect((prev) => ({ ...prev, isSelect: false }));
     } else {
       setAddToCartBtn(true);
-      dispatch(
-        addToCart({
-          title,
-          salePrice,
-          description,
-          img: product.imageInfo.imgUrl,
-          quantity,
-          id,
-          size: { selectSize: sizeSelect.size, allSize: sizes },
-        }),
-      );
+      let productDetails = {
+        product,
+        quantity,
+        size: { selectSize: sizeSelect.size, allSize: sizes },
+      };
+      dispatch(addToCart(productDetails));
       toast("Product is added Successfully");
     }
   };
@@ -127,15 +122,13 @@ export default function ProductDetails() {
               </label>
               <select
                 id='quantity'
+                onChange={(e) => setQuantity(e.target.value)}
                 className='text-black  bg-white outline-none'>
                 {Array(10)
                   .fill("")
                   .map((_, i) => {
                     return (
-                      <option
-                        key={i}
-                        onClick={(e) => setQuantity(e.target.value)}
-                        value={i + 1}>
+                      <option key={i} value={i + 1}>
                         {i + 1}
                       </option>
                     );

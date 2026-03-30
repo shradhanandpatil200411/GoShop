@@ -10,7 +10,6 @@ export const asyncCurrentUserAction = (navigate) => async (dispatch) => {
   try {
     const getUser = await axios.get("/auth/user");
     dispatch(loginAction(getUser?.data?.data?.getUserData));
-    navigate("/home");
   } catch (err) {
     toast.error(err.response.data.message);
     navigate("/");
