@@ -15,6 +15,8 @@ const io = new Server(httpServer, {
 let chatHistory = [];
 
 io.on("connection", (socket) => {
+  console.log("user connected");
+
   socket.on("disconnect", () => {
     console.log("Disconnect");
   });
@@ -22,10 +24,11 @@ io.on("connection", (socket) => {
   socket.on("ai-message", async (data) => {
     chatHistory.push({
       role: "user",
-      parts: [{ text: data.prompt }],
+      parts: [{ text: data }],
     });
     const response = await generateResponse(chatHistory);
     socket.emit("ai-response", { response });
+
     chatHistory.push({
       role: "model",
       parts: [{ text: response }],

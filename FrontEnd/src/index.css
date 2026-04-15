@@ -6,3 +6,19 @@
     --color-Deep-Navy-Blue:#0C2D48;
     --color-Bright-Orange:#FF9F1C;
 }
+
+
+.prose b, .prose strong {
+  color: #dfd92d; 
+  font-weight: 700;
+}
+
+.prose ul {
+  margin-top: 0.5rem;
+  list-style-type: disc;
+  padding-left: 1.25rem;
+}
+
+.prose li {
+  margin-bottom: 0.25rem;
+}
