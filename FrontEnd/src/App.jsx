@@ -7,6 +7,7 @@ import ProductDetails from "./Pages/ProductDetails";
 import AdminAuthRoute from "./Routes/AdminAuthRoute";
 import CreateProduct from "./Admin/CreateProduct";
 import Profile from "./Pages/Profile";
+import AiChatBot from "./Services/AiChatBot";
 
 const roots = createBrowserRouter([
   {
@@ -21,6 +22,7 @@ const roots = createBrowserRouter([
         element: (
           <AuthRoute>
             <Home />
+            <AiChatBot />
           </AuthRoute>
         ),
       },

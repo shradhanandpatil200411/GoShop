@@ -22,17 +22,23 @@ io.on("connection", (socket) => {
   });
 
   socket.on("ai-message", async (data) => {
-    chatHistory.push({
-      role: "user",
-      parts: [{ text: data }],
-    });
-    const response = await generateResponse(chatHistory);
-    socket.emit("ai-response", { response });
-
-    chatHistory.push({
-      role: "model",
-      parts: [{ text: response }],
-    });
+    try {
+      chatHistory.push({
+        role: "user",
+        parts: [{ text: data }],
+      });
+      const response = await generateResponse(chatHistory);
+      socket.emit("ai-response", { response });
+      chatHistory.push({
+        role: "model",
+        parts: [{ text: response }],
+      });
+    } catch (error) {
+      console.log(error);
+      socket.emit("ai-response", {
+        response: "Sorry temporary not available 🤖",
+      });
+    }
   });
 });
 connectDB();

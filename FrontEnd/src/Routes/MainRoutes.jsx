@@ -8,7 +8,6 @@ import { SplitText } from "gsap/all";
 import { useDispatch } from "react-redux";
 import Navbar from "../Components/Navbar";
 import { ToastContainer } from "react-toastify";
-import AiChatBot from "../Services/AiChatBot";
 
 function MainRoutes() {
   const dispatch = useDispatch();
@@ -21,7 +20,6 @@ function MainRoutes() {
     <>
       <Navbar />
       <Outlet />
-      <AiChatBot />
       <ToastContainer />
     </>
   );

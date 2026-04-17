@@ -18,24 +18,24 @@ function AiChatBot() {
   }, [message]);
 
   useEffect(() => {
-    socket.current = io("http://localhost:3000");
+    if (startChat) {
+      socket.current = io("http://localhost:3000");
 
-    socket.current.on("ai-response", (response) => {
-      const aiResponse = {
-        role: "model",
-        message: response.response,
+      socket.current.on("ai-response", (response) => {
+        const aiResponse = {
+          role: "model",
+          message: response.response,
+        };
+        setMessage((prev) => [...prev, aiResponse]);
+      });
+      return () => {
+        socket.current.on("disconnect");
       };
-      setMessage((prev) => [...prev, aiResponse]);
-    });
-
-    return () => {
-      socket.current.disconnect();
-    };
-  }, []);
+    }
+  }, [startChat]);
 
   const handelStartChat = () => {
     setStartChat(true);
-    socket.current.on("connect");
   };
   const handelCloseChat = () => {
     setStartChat(false);
@@ -77,12 +77,14 @@ function AiChatBot() {
                   <div className='prose prose-sm prose-slate max-w-none'>
                     <ReactMarkdown>{mess.message}</ReactMarkdown>
                   </div>
-                  <div ref={scrollRef} />
                 </div>
               ))
             }
+            <div ref={scrollRef} />
           </div>
-          <form className='h-2/12 px-2 w-full gap-1 items-center flex'>
+          <form
+            onSubmit={handleSendMessage}
+            className='h-2/12 px-2 w-full gap-1 items-center flex'>
             <input
               onChange={(e) => setInputMessage(e.target.value)}
               value={inputMessage}
@@ -91,7 +93,7 @@ function AiChatBot() {
             />
 
             <button
-              onClick={handleSendMessage}
+              type='submit'
               className='bg-linear-to-r py-1 from-Deep-Navy-Blue to-cyan-500 text-white px-4  rounded cursor-pointer'>
               Send
             </button>
