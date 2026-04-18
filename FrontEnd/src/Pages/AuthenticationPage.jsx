@@ -10,7 +10,6 @@ import {
 } from "../Store/Actions/userActions";
 import gsap from "gsap";
 import { useRef } from "react";
-import { SplitText } from "gsap/all";
 
 function AuthenticationPage() {
   const [isLogin, setIsLogin] = useState(false);

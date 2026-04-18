@@ -11,16 +11,6 @@ function Home() {
   const [showShimmer, setShowShimmer] = useState(false);
   const [product, setProduct] = useState([]);
 
-  // const handelScroll = () => {
-  //   if (
-  //     window.scrollY + window.innerHeight - 13 >=
-  //     window.document.body.scrollHeight
-  //   ) {
-  //     setShowShimmer(true);
-  //     fetchProductData();
-  //   }
-  // };
-
   useEffect(() => {
     const fetchProductData = async () => {
       try {
@@ -33,10 +23,6 @@ function Home() {
       }
     };
     fetchProductData();
-    // window.addEventListener("scroll", handelScroll);
-    // return () => {
-    //   window.removeEventListener("scroll", handelScroll);
-    // };
   }, []);
 
   return (
